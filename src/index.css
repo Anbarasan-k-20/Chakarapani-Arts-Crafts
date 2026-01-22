@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+.navbar {
+  background-color: #faf7eb !important;
+  color: #852b28 !important;
+}
+.section-1 {
+  color: #852b28 !important;
+}
+
+.btn-in {
+  background-color: #852b28 !important;
+  color: #fff;
+  text-decoration: solid;
+  font-weight: 500;
+  border: none;
+}
+/* For design of the week */
+.desgn-img {
+  max-height: 450px;
+}
+
+/* Simple hover effect for all elements with hov-col class */
+
+.hov-col:hover {
+  color: yellow !important;
+}
