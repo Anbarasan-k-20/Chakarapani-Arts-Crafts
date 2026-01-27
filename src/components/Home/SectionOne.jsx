@@ -1,5 +1,5 @@
 import FeaturedProducts from "./FeaturedProducts";
-
+import { PiGreaterThan } from "react-icons/pi";
 // img exports
 const vishnu = "../src/assets/vishnu-828x1024.png";
 const img_1 = "../src/assets/section-2/img-1.jpg";
@@ -27,9 +27,8 @@ const SectionOne = () => {
                 Indian crafts, honored with prestigious national awards.
               </p>
 
-              <button className="btn-in px-4 py-2 mt-3">Get Started →</button>
+              <button className="btn-in px-4 py-2 mt-3">Get Started <span><PiGreaterThan/></span></button>
             </div>
-
             {/* RIGHT IMAGE */}
             <div className="col-md-6 text-center">
               <img

@@ -34,7 +34,6 @@ const HappyClients = () => {
         </h2>
         <hr className="section-divider mx-auto mb-5" />
 
-        {/* Testimonials */}
         <div className="section-1 container my-5 py-5 ">
           <div className="row g-4 justify-content-center">
             {testimonials.map((item, index) => (
@@ -44,11 +43,8 @@ const HappyClients = () => {
                     component="legend"
                     sx={{ fontSize: 13, color: "inherit" }}
                   />
-
-                   <Rating name="disabled" disabled />
-
+                  <Rating name="disabled" disabled />
                   <p className="mt-3 mb-4">“{item.text}”</p>
-
                   <div className="d-flex align-items-center gap-3 mt-auto">
                     <img
                       src={item.avatar}
@@ -66,7 +62,7 @@ const HappyClients = () => {
         </div>
         {/* Featured In  */}
         <div className="d-md-flex align-items-center justify-content-between client-logos">
-            <h5 className="section-1 fw-bold">Featured In:</h5>
+          <h5 className="section-1 fw-bold">Featured In:</h5>
           <img src={client_img1} alt="client 1" />
           <img src={client_img2} alt="client 2" />
           <img src={client_img3} alt="client 3" />

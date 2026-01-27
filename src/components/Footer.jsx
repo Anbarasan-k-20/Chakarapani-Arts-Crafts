@@ -30,7 +30,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/media" className="hov-col text-decoration-none">
+                <Link to="#" className="hov-col text-decoration-none">
                   News & Media
                 </Link>
               </li>
@@ -179,6 +179,9 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
+          </div>
+          <div className="col-12 col-md-3 mt-3">
+            <h4 className="fw-bold">Contact US</h4>
           </div>
         </div>
       </div>

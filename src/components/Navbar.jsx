@@ -20,31 +20,21 @@ const Navbar = () => {
 
           {/* Menu */}
           <ul className="navbar-nav ms-auto align-items-center gap-3">
-            <Link to="/" className="section-1 nav-link">
+            <Link to="/" className="section-1 nav-link custom-nav-link">
               All Products
             </Link>
-            <Link to="/" className="section-1 nav-link">
+            <Link to="/" className="section-1 nav-link custom-nav-link">
               Home Decor
             </Link>
-            <Link to="/" className="section-1 nav-link">
+            <Link to="/" className="section-1 nav-link custom-nav-link">
               Garden Decor
             </Link>
-            {/* <li className="nav-item">All Products</li> */}
-            {/* <li className="nav-item">Home Decor</li>
-              <li className="nav-item">Garden Decor</li> */}
-            <Link to="/" className="section-1 nav-link">
+            <Link to="/" className="section-1 nav-link custom-nav-link">
+              <FaShoppingCart />
+            </Link>
+            <Link to="/" className="section-1 nav-link custom-nav-link">
               <FaUser />
             </Link>
-            <Link to="/" className="section-1 nav-link">
-              <FaShoppingCart />
-            </Link>
-            {/* below will use as a reference later time */}
-            {/* <li className="nav-item position-relative">
-              <FaShoppingCart />
-              <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
-                1
-              </span>
-            </li> */}
           </ul>
         </div>
       </nav>
