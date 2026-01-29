@@ -1,4 +1,3 @@
-import React from "react";
 import HappyClients from "./HappyClients";
 
 const MostLoved = ({ product }) => {

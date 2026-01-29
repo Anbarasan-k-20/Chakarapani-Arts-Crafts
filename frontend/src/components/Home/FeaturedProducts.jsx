@@ -14,25 +14,19 @@ const FeaturedProducts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true; // prevents state update on unmount
-
     const getProducts = async () => {
       try {
         const res = await axios.get("https://fakestoreapi.com/products");
-        if (isMounted) setProducts(res.data);
+        setProducts(res.data);
       } catch (err) {
         console.log(err);
         setError("Failed to load featured products");
       } finally {
-        if (isMounted) setLoading(false);
+        setLoading(false);
       }
     };
 
     getProducts();
-
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
   if (loading) {

@@ -62,3 +62,33 @@
   color: #852b28;
   font-size: 14px;
 }
+
+
+/* payment img in product detail page */
+
+.payment-img {
+  max-height: 80px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Offers banner */
+
+.offer-track {
+  white-space: nowrap;
+  animation: scroll-left 30s linear infinite;
+}
+
+.offer-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
