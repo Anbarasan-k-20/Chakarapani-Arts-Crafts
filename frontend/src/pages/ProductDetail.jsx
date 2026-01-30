@@ -21,7 +21,7 @@ import productDetails from "../dummyData/productData.json";
 const ProductDetail = () => {
   const { id } = useParams(); // dynamic product id from URL
   const [product, setProduct] = useState(null);
-  const [relatedProduct, setRelatedProduct] = useState(null);
+  const [relatedProduct, setRelatedProduct] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -35,6 +35,24 @@ const ProductDetail = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+  };
+
+  // For img hover effects :
+  const handleZoom = (e) => {
+    const img = e.currentTarget.querySelector(".zoom-img");
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    img.style.transformOrigin = `${x}% ${y}%`;
+    img.style.transform = "scale(2)";
+  };
+
+  const resetZoom = (e) => {
+    const img = e.currentTarget.querySelector(".zoom-img");
+    img.style.transformOrigin = "center center";
+    img.style.transform = "scale(1)";
   };
 
   useEffect(() => {
@@ -75,15 +93,21 @@ const ProductDetail = () => {
   return (
     <div className="container py-5">
       <div className="row g-4 align-items-center mb-5">
-        <div className="col-md-7">
-          <img
-            src={product.image}
-            alt={product.title}
-            className="img-fluid rounded shadow-sm"
-          />
+        <div className="col-md-6">
+          <div
+            className="zoom-container rounded shadow-sm"
+            onMouseMove={handleZoom}
+            onMouseLeave={resetZoom}
+          >
+            <img
+              src={product.image}
+              alt={product.title}
+              className="img-fluid zoom-img"
+            />
+          </div>
         </div>
 
-        <div className="col-md-5">
+        <div className="col-md-6">
           <div className="section-1 mb-5">
             <h2>{product.title}</h2>
             <p className="text-muted">{product.category}</p>
@@ -283,7 +307,14 @@ const ProductDetail = () => {
                       next time I comment.
                     </label>
                   </div>
-                  <button onClick={(e)=>{e.preventDefault()}} className="btn-in mt-3 py-1 px-4 fw-bold">Submit</button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    className="btn-in mt-3 py-1 px-4 fw-bold"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </form>
@@ -308,14 +339,16 @@ const ProductDetail = () => {
                   Sale
                 </span>
                 {/* Image */}
-                <img
-                  src={product.image}
-                  className="card-img-top"
-                  alt={product.title}
-                  onError={(e) => {
-                    e.target.src = "/fallback.png";
-                  }}
-                />
+                <div className="zoom-container">
+                  <img
+                    src={product.image}
+                    className="card-img-top"
+                    alt={product.title}
+                    onError={(e) => {
+                      e.target.src = "/fallback.png";
+                    }}
+                  />
+                </div>
 
                 {/* Body */}
                 <div className="card-body">

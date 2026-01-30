@@ -8,8 +8,16 @@
 
 /* for product features cards in home page */
 .product-card img {
-  height: 280px;
+  height: 380px;
   object-fit: cover;
+}
+
+/* for sale notify */
+.sale-but {
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  /* { top: "15px", left: "15px", zIndex: 1 } */
 }
 
 /* for hurry up section-3  */
@@ -63,7 +71,6 @@
   font-size: 14px;
 }
 
-
 /* payment img in product detail page */
 
 .payment-img {
@@ -91,4 +98,21 @@
   to {
     transform: translateX(-100%);
   }
+}
+
+/* For Imgage hover in product details  */
+
+/* Zoom wrapper */
+.zoom-container {
+  overflow: hidden;
+  width: 80%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+/* Image */
+.zoom-img {
+  transition: transform 0.2s ease;
+  width: 100%;
+  height: auto;
 }

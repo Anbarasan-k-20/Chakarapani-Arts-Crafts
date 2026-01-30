@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
+
 const Navbar = () => {
   return (
     <div>
@@ -23,7 +24,7 @@ const Navbar = () => {
       </div>
 
       {/* 🧭 MAIN NAVBAR */}
-      <nav className="navbar navbar-expand-lg px-5 py-4">
+      <nav className="navbar navbar-expand-lg px-5 pt-4">
         <div className="container-fluid">
           {/* Logo */}
           <div className="d-flex align-items-center">
@@ -36,7 +37,7 @@ const Navbar = () => {
               <Link to="/" className="navbar-brand fw-bold p-0 section-1">
                 CHAKRAPANI ARTS & CRAFTS
               </Link>
-              <small className="text-muted">Divinity Redefined</small>
+              <small className="text-muted ">Divinity Redefined</small>
             </div>
           </div>
 
@@ -52,7 +53,10 @@ const Navbar = () => {
               <button className="btn-in px-3 py-1 rounded">Search</button>
             </li>
 
-            <Link to="/" className="nav-link custom-nav-link section-1">
+            <Link
+              to="/allproduct"
+              className="nav-link custom-nav-link section-1"
+            >
               All Products
             </Link>
             <Link to="/" className="nav-link custom-nav-link section-1">
@@ -62,10 +66,12 @@ const Navbar = () => {
               Garden Decor
             </Link>
             <Link to="/" className="nav-link custom-nav-link section-1">
-              <FaShoppingCart /><span>1</span>
+              <FaShoppingCart />
+              <span>1</span>
             </Link>
             <Link to="/" className="nav-link custom-nav-link section-1">
-              <FaHeart /><span>1</span>
+              <FaHeart />
+              <span>1</span>
             </Link>
             <Link to="/" className="nav-link custom-nav-link section-1">
               <FaUser />
@@ -74,7 +80,7 @@ const Navbar = () => {
         </div>
       </nav>
       {/* 📞 SOCIAL + CONTACT BAR */}
-      <div className="py-2 px-5 d-flex justify-content-between align-items-center shadow navbar">
+      <div className="py-2 px-5 d-flex justify-content-between align-items-center  navbar">
         {/* Left: Social Icons */}
         <div className="d-flex gap-3">
           <a href="https://facebook.com" target="_blank" className="text-dark">

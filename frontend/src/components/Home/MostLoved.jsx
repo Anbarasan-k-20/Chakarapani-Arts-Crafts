@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import HappyClients from "./HappyClients";
 
 const MostLoved = ({ product }) => {
+  const Navigate = useNavigate();
   return (
     <>
       <div className="m-5 p-5">
@@ -9,11 +11,14 @@ const MostLoved = ({ product }) => {
         <div className="row g-4">
           {product.slice(0, 4).map((product) => (
             <div key={product.id} className=" col-12 col-sm-6 col-md-3">
-              <div className="section-1 card h-100 product-card">
+              <div
+                onClick={() => Navigate(`/product/${product.id}`)}
+                className="section-1 card h-100 product-card"
+              >
                 <div className="product-card position-relative">
                   <span
-                    className="badge text-dark bg-light px-2 py-2 position-absolute custom-badge "
-                    style={{ top: "15px", left: "15px", zIndex: 1 }}
+                    className="badge text-dark bg-light px-2 py-2 position-absolute sale-but"
+                    // style={{ top: "15px", left: "15px", zIndex: 1 }}
                   >
                     sale !
                   </span>
@@ -32,7 +37,7 @@ const MostLoved = ({ product }) => {
                     <p className="fw-bold mb-1">- ₹{product.price}</p>
                   </div>
                   <button className="btn btn-outline-dark btn-sm">
-                    View Product
+                    Add To Cart
                   </button>
                 </div>
               </div>

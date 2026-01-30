@@ -53,8 +53,8 @@ const FeaturedProducts = () => {
               >
                 {/* Badge */}
                 <span
-                  className="badge bg-light text-dark position-absolute px-2 py-2"
-                  style={{ top: "15px", left: "15px", zIndex: 1 }}
+                  className="badge bg-light text-dark position-absolute px-2 py-2 sale-but"
+                  // style={{ top: "15px", left: "15px", zIndex: 1 }}
                 >
                   Sale
                 </span>
