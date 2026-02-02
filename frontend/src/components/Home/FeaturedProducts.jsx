@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import HurryUp from "./HurryUp";
 
 // Icons
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faHeart } from "@fortawesome/free-solid-svg-icons";
+
+import { FaCartShopping } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
 
 const FeaturedProducts = () => {
@@ -81,15 +85,30 @@ const FeaturedProducts = () => {
                     </p>
                   </div>
 
-                  <button
-                    className="btn btn-outline-dark btn-sm mt-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      alert(`Added "${product.title}" to cart`);
-                    }}
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="d-flex justify-content-between">
+                    <button
+                      className="btn btn-outline-dark btn-sm mt-2 py-2 px-4"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert(`Added "${product.title}" to cart`);
+                      }}
+                    >
+                      <span>
+                        <FaCartShopping />
+                      </span>
+                    </button>
+                    {/* <button
+                      className="btn btn-outline-danger btn-sm mt-2 py-2 px-4"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert(`Added "${product.title}" to cart`);
+                      }}
+                    >
+                      <span>
+                        <FontAwesomeIcon icon={faHeart} />
+                      </span>
+                    </button> */}
+                  </div>
                 </div>
               </div>
             </div>

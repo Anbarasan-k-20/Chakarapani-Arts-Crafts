@@ -1,30 +1,32 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
+const ProductSidebar = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await axios.get("https://fakestoreapi.com/products");
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-const ProductSidebar = ({ products }) => {
-  // console.log(products);
-
-  // const [products, setProducts] = useState([]);
-  // useEffect(() => {
-  //   const getProducts = async () => {
-  //     try {
-  //       const res = await axios.get("https://fakestoreapi.com/products");
-  //       setProducts(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
-  //   getProducts();
-  // }, []);
-
+    getProducts();
+  }, []);
   return (
     <aside className="col-md-3">
       {/* Categories */}
       <div className="mb-5">
         <h5 className="fw-bold mb-3">Categories</h5>
-        <select className="form-select">
+        <select
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
+          className="form-select"
+        >
           <option>Search</option>
           {products.map((cat) => (
             <option key={cat.id}>{cat.title}</option>
@@ -49,6 +51,11 @@ const ProductSidebar = ({ products }) => {
               <p className="mb-0 small">
                 <FaRupeeSign /> {item.price} – <FaRupeeSign /> {item.price}
               </p>
+              <button className="btn btn-outline-dark btn-sm mt-2">
+                <span>
+                  <FaCartShopping />
+                </span>
+              </button>
             </div>
           </div>
         ))}
@@ -69,6 +76,16 @@ const ProductSidebar = ({ products }) => {
               <p className="mb-0 small">
                 <FaRupeeSign /> {item.price} – <FaRupeeSign /> {item.price}
               </p>
+              <button
+                className="btn btn-outline-dark btn-sm mt-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <span>
+                  <FaCartShopping />
+                </span>
+              </button>
             </div>
           </div>
         ))}

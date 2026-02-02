@@ -1,10 +1,12 @@
 body {
   font-family: Arial, Helvetica, sans-serif !important;
 }
+
 .navbar {
   background-color: #faf7eb !important;
   color: #852b28 !important;
 }
+
 .section-1 {
   color: #852b28 !important;
 }
@@ -20,16 +22,11 @@ body {
 .desgn-img {
   max-height: 450px;
 }
-
 /* Simple hover effect for all elements with hov-col class */
-
 .hov-col:hover {
   color: yellow !important;
 }
-
-/* Navbar Hower effects */
-
-/* Base nav link styling */
+/* Navbar Hower effects */ /* Base nav link styling */
 .custom-nav-link {
   position: relative;
   font-weight: 500;
@@ -61,7 +58,9 @@ body {
 /* Icon hover effects */
 .custom-nav-link svg {
   font-size: 1.1rem;
-  transition: transform 0.25s ease, color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
 }
 
 .custom-nav-link:hover svg {
@@ -73,8 +72,6 @@ body {
 .custom-nav-link svg::after {
   display: none;
 }
-
-
 
 /* img zoom  */
 /* main zoom container */
@@ -97,4 +94,16 @@ body {
 /* zoom effect */
 .zoom-box:hover {
   background-size: 200%;
+}
+
+/* traditional-bg */
+
+.traditional-bg {
+  position: relative;
+  /* background-color: #852b28; */
+  background-image: url("../src/assets/traditional_bg/traditional-img.png");
+  background-repeat: no-repeat;
+  /* push beyond container edge */
+  background-position: calc(100% + 200px) -50px;
+  background-size: 800px;
 }

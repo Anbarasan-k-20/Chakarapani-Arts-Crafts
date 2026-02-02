@@ -22,7 +22,7 @@
 
 /* for hurry up section-3  */
 .exclusive-offer-section {
-  background-image: url("../src/assets/HurryUp_sec_3/vishnu-bg.png");
+  background-image: url("../src/assets/vishnu-828x1024.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 700px;
@@ -82,9 +82,22 @@
 
 /* Offers banner */
 
-.offer-track {
+/* 🔝 TOP INFO BAR */
+
+.top-info-bar {
+  background-color: #b11212; /* brand red */
+  overflow: hidden;
+}
+
+.offer-wrapper {
+  overflow: hidden;
   white-space: nowrap;
-  animation: scroll-left 30s linear infinite;
+}
+
+.offer-track {
+  display: inline-flex;
+  gap: 4rem;
+  animation: scroll-left 25s linear infinite;
 }
 
 .offer-track:hover {
@@ -115,4 +128,45 @@
   transition: transform 0.2s ease;
   width: 100%;
   height: auto;
+}
+
+/* For Nvabar stylings 🔍 */
+
+/* 🔍 Navbar Search (Bootstrap-first) */
+
+.search-box {
+  width: 320px; /* layout control – Bootstrap doesn't handle this well */
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.search-btn {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+}
+
+/* Navbar hover effects */
+
+.dropdown-menu {
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  transform: translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dropdown-menu.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }

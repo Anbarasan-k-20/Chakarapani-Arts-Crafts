@@ -181,7 +181,8 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-12 col-md-3 mt-3">
-            <h4 className="fw-bold">Contact US</h4>
+            <h4 className="fw-bold">For Enquiry</h4>
+            
           </div>
         </div>
       </div>
@@ -189,7 +190,9 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="footer-bottom py-4">
         <div className="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-          <span>© {currentYear} Chakrapani Arts & Crafts</span>
+          <strong>
+            <span>© {currentYear} Chakrapani Arts & Crafts</span>
+          </strong>
 
           <span>
             Developed by <strong>Vyoobam Tech</strong>

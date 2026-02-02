@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import HappyClients from "./HappyClients";
 
+import { FaCartShopping } from "react-icons/fa6";
 const MostLoved = ({ product }) => {
   const Navigate = useNavigate();
   return (
@@ -37,7 +38,9 @@ const MostLoved = ({ product }) => {
                     <p className="fw-bold mb-1">- ₹{product.price}</p>
                   </div>
                   <button className="btn btn-outline-dark btn-sm">
-                    Add To Cart
+                    <span>
+                      <FaCartShopping />
+                    </span>
                   </button>
                 </div>
               </div>
