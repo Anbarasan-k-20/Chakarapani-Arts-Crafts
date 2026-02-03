@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api/axios.js";
 import { useEffect, useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
@@ -7,7 +7,7 @@ const ProductSidebar = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get("https://fakestoreapi.com/products");
+        const res = await api.get("/products");
         setProducts(res.data);
       } catch (err) {
         console.log(err);
@@ -27,7 +27,10 @@ const ProductSidebar = () => {
           }}
           className="form-select"
         >
-          <option>Search</option>
+          <option>
+            search
+            {/* <input type="text" /> */}
+          </option>
           {products.map((cat) => (
             <option key={cat.id}>{cat.title}</option>
           ))}
@@ -37,7 +40,7 @@ const ProductSidebar = () => {
       {/* Recently Viewed */}
       <div className="section-1 ms-4">
         <h4 className="fw-bold mb-4 p-3">Recently Viewed Products</h4>
-        {products.slice(0, 5).map((item, index) => (
+        {products.slice(5, 10).map((item, index) => (
           <div key={index} className="d-flex gap-3 mb-3">
             <img
               src={item.image}

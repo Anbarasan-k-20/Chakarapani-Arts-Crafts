@@ -10,10 +10,31 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
+    // Local state for search input
+  // This is TEMPORARY UI state (not global, not Redux)
+  const [query, setQuery] = useState("");
+
+  // Used to programmatically change route
+  const navigate = useNavigate();
+
+  // Called when user clicks search button or presses Enter
+  const handleSearch = () => {
+    // Guard clause: avoid empty searches
+    if (!query.trim()) return;
+
+    // 👉 Redirect user to AllProducts page
+    // Search value is stored in URL (query param)
+    // This is the KEY architectural decision
+    navigate(`/allproduct?search=${encodeURIComponent(query)}`);
+
+    // Optional UX cleanup
+    setQuery("");
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -89,7 +110,7 @@ const Navbar = () => {
                 />
 
                 {/* Button */}
-                <button className="btn btn-sm search-btn section-1">
+                <button  onClick={handleSearch} className="btn btn-sm search-btn section-1">
                   <span>
                     <FontAwesomeIcon icon={faSearch} />
                   </span>

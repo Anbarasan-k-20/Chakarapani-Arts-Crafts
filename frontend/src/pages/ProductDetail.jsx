@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios.js";
 //for icons
 import { LuAmpersand } from "react-icons/lu";
 import { FaMinus, FaRupeeSign } from "react-icons/fa";
@@ -17,6 +17,7 @@ import Rating from "@mui/material/Rating";
 // import dummy data
 
 import productDetails from "../dummyData/productData.json";
+import ProductGrid from "../components/Productgrid";
 
 const ProductDetail = () => {
   const { id } = useParams(); // dynamic product id from URL
@@ -58,7 +59,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+        const res = await api.get(`products/${id}`);
         setProduct(res.data);
       } catch (err) {
         setError("Failed to load product details" + err);
@@ -73,9 +74,9 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchRelatedProd = async () => {
       try {
-        const relProd = await axios.get("https://fakestoreapi.com/products");
+        const relProd = await api.get("/products");
         setRelatedProduct(relProd.data);
-        console.log(relProd.data);
+        // console.log(relProd.data);
       } catch (error) {
         console.log("from Fetch related products  ", error.message);
         setError("Error at Related Product fetch" + error.message);
@@ -83,7 +84,7 @@ const ProductDetail = () => {
     };
     fetchRelatedProd();
   }, []);
-  console.log(productDetails);
+  // console.log(productDetails);
 
   // for related products
 
@@ -323,60 +324,7 @@ const ProductDetail = () => {
       </TabContext>
       <div>
         <h1 className="fw-bold section-1">Related Products</h1>
-        <div className="row g-4 my-3">
-          {relatedProduct.slice(0, 3).map((product) => (
-            <div key={product.id} className="col-12 col-sm-6 col-md-3">
-              <div
-                className="card h-100 product-card"
-                role="button"
-                tabIndex={0}
-              >
-                {/* Badge */}
-                <span
-                  className="badge bg-light text-dark position-absolute px-2 py-2"
-                  style={{ top: "15px", left: "15px", zIndex: 1 }}
-                >
-                  Sale
-                </span>
-                {/* Image */}
-                <div className="zoom-container">
-                  <img
-                    src={product.image}
-                    className="card-img-top"
-                    alt={product.title}
-                    onError={(e) => {
-                      e.target.src = "/fallback.png";
-                    }}
-                  />
-                </div>
-
-                {/* Body */}
-                <div className="card-body">
-                  <h6 className="card-title text-truncate">{product.title}</h6>
-
-                  <div className="d-flex gap-3 align-items-center">
-                    <p className="fw-bold text-muted text-decoration-line-through mb-1">
-                      <FaRupeeSign /> {product.price}
-                    </p>
-                    <p className="fw-bold mb-1">
-                      <FaRupeeSign /> {product.price}
-                    </p>
-                  </div>
-
-                  <button
-                    className="btn btn-outline-dark btn-sm mt-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      alert(`Added "${product.title}" to cart`);
-                    }}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <ProductGrid products={relatedProduct} start={8} limit={3} />
       </div>
     </div>
   );
