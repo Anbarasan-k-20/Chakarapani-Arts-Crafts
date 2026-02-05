@@ -6,6 +6,9 @@ import Footer from "./components/Footer";
 import ProductDetail from "./pages/ProductDetail";
 import AllProducts from "./pages/AllProducts";
 import CartPage from "./pages/CartPage";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import PagenotFound from "./pages/pageNotFound/PagenotFound";
 const App = () => {
   return (
     <>
@@ -16,6 +19,9 @@ const App = () => {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/allproduct" element={<AllProducts />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<PagenotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>

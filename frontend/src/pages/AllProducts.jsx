@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import ProductSidebar from "../components/ProductSidebar";
-import api from '../api/axios.js'
+import api from "../api/axiosInstance.js";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AllProducts = () => {
   const navigate = useNavigate();
+
+  //for search params
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
 
   // 🔹 All products from API
   const [products, setProducts] = useState([]);
@@ -30,15 +34,24 @@ const AllProducts = () => {
     getProducts();
   }, []);
 
+  // for filter products
+  const filteredProducts = products.filter((product) => {
+    const q = searchQuery.toLowerCase();
+
+    return (
+      product.title?.toLowerCase().includes(q) ||
+      product.category?.toLowerCase().includes(q) ||
+      product.description?.toLowerCase().includes(q)
+    );
+  });
+
   // 🔹 Pagination calculations (industry standard)
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
 
   // 🔹 Slice only what UI needs
-  const paginatedProducts = products.slice(startIndex, endIndex);
-
-  // 🔹 Total pages (used to disable buttons)
-  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
 
   return (
     <>

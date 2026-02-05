@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api/axios.js";
+import api from "../api/axiosInstance.js";
 //for icons
 import { LuAmpersand } from "react-icons/lu";
 import { FaMinus, FaRupeeSign } from "react-icons/fa";

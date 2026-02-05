@@ -1,9 +1,16 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+// cart redux
+
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 const ProductGrid = ({ products = [], limit = 8 }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const navigate = useNavigate();
 
   return (
     <div className="row g-4 my-3">
@@ -42,11 +49,16 @@ const ProductGrid = ({ products = [], limit = 8 }) => {
               </div>
 
               <button
-                className="btn btn-outline-dark btn-sm mt-2 py-2 px-4"
+                className="btn btn-outline-dark btn-sm mt-2"
                 onClick={(e) => {
                   e.stopPropagation();
-                  alert(`Added "${product.title}" to cart`);
-                  navigate("/cart");
+
+                  if (!isLoggedIn) {
+                    navigate("/login");
+                    return;
+                  }
+
+                  dispatch(addToCart(product));
                 }}
               >
                 <FaCartShopping />

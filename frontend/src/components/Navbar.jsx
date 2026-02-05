@@ -12,9 +12,10 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-    // Local state for search input
+  // Local state for search input
   // This is TEMPORARY UI state (not global, not Redux)
   const [query, setQuery] = useState("");
 
@@ -35,13 +36,18 @@ const Navbar = () => {
     setQuery("");
   };
 
+  //cart count selector
+  const cartCount = useSelector((state) =>
+    state.cart.items.reduce((s, i) => s + i.qty, 0),
+  );
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
+    <>
       {/* 🔝 TOP INFO BAR */}
-      <div className="top-info-bar d-flex align-items-center px-5 py-2 section-1">
-        <div className="d-flex gap-3">
+      <div className="top-info-bar d-flex align-items-center px-5 py-2">
+        <div className="d-flex gap-3 section-1">
           <a href="https://facebook.com" target="_blank" className="text-light">
             <FaFacebookF />
           </a>
@@ -107,10 +113,16 @@ const Navbar = () => {
                   type="text"
                   className="form-control form-control rounded-lg"
                   placeholder="Search Paintings"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 />
 
                 {/* Button */}
-                <button  onClick={handleSearch} className="btn btn-sm search-btn section-1">
+                <button
+                  onClick={handleSearch}
+                  className="btn btn-sm search-btn section-1"
+                >
                   <span>
                     <FontAwesomeIcon icon={faSearch} />
                   </span>
@@ -163,19 +175,19 @@ const Navbar = () => {
 
             <Link to="/cart" className="nav-link custom-nav-link section-1">
               <FaShoppingCart />
-              <span>1</span>
+              <span>{cartCount}</span>
             </Link>
             {/* <Link to="/" className="nav-link custom-nav-link section-1">
               <FaHeart />
               <span>1</span>
             </Link> */}
-            <Link to="/" className="nav-link custom-nav-link section-1">
+            <Link to="/signup" className="nav-link custom-nav-link section-1">
               <FaUser />
             </Link>
           </ul>
         </div>
       </nav>
-    </div>
+    </>
   );
 };
 

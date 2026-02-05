@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import axios from "axios";
 import HurryUp from "./HurryUp";
-import api from "../../api/axios";
+import api from "../../api/axiosInstance";
 // import { useNavigate } from "react-router-dom";
 // Icons
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
