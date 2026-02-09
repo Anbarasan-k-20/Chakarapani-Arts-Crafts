@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // cart redux
 
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/cartSlice";
+import { addToCartBackend } from "../redux/cartSlice";
 
 const ProductGrid = ({ products = [], limit = 8 }) => {
   const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const ProductGrid = ({ products = [], limit = 8 }) => {
                     return;
                   }
 
-                  dispatch(addToCart(product));
+                  dispatch(addToCartBackend(product));
                 }}
               >
                 <FaCartShopping />

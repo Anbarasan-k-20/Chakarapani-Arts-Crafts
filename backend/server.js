@@ -2,22 +2,26 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import cors from "cors";
-import authRoutes from "./routes/authRoutes.js";
 
+// ✅ Import routes
+import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js"; 
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// Middleware
+// ✅ Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes); // ✅ - handles /api/cart endpoints
 
-
-// Test route
+// ✅ Test route
 app.get("/", (req, res) => {
   res.send("API is running 🚀");
 });

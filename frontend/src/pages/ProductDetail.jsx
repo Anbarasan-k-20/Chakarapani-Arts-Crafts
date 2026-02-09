@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance.js";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCartBackend } from "../redux/cartSlice"; // ✅ UPDATED
+
 //for icons
 import { LuAmpersand } from "react-icons/lu";
 import { FaMinus, FaRupeeSign } from "react-icons/fa";
@@ -11,34 +14,49 @@ import Box from "@mui/material/Box";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
 import Rating from "@mui/material/Rating";
 
 // import dummy data
-
 import productDetails from "../dummyData/productData.json";
 import ProductGrid from "../components/Productgrid";
 
 const ProductDetail = () => {
-  const { id } = useParams(); // dynamic product id from URL
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // ✅ Get auth state
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   const [product, setProduct] = useState(null);
   const [relatedProduct, setRelatedProduct] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   const payment_img = "../src/assets/Payment_img/payment-methods.png";
-  //for Frame size
-  const sizes = ['24" x 12"', '20" x 9"'];
+
+  // ✅ Dynamic size selection
   const [selectedSize, setSelectedSize] = useState(null);
+  const [currentPrice, setCurrentPrice] = useState(null);
+  const [addingToCart, setAddingToCart] = useState(false);
 
   const [tabValue, setTabValue] = useState("1");
-  const details = productDetails[0]; // using first product
+  const details = productDetails[0];
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  // For img hover effects :
+  // ✅ Handle size selection
+  const handleSizeSelect = (sizeOption) => {
+    setSelectedSize(sizeOption);
+    setCurrentPrice({
+      original: sizeOption.originalPrice,
+      sale: sizeOption.salePrice,
+    });
+  };
+
+  // For img hover effects
   const handleZoom = (e) => {
     const img = e.currentTarget.querySelector(".zoom-img");
     const rect = e.currentTarget.getBoundingClientRect();
@@ -56,13 +74,24 @@ const ProductDetail = () => {
     img.style.transform = "scale(1)";
   };
 
+  // ✅ Fetch product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await api.get(`products/${id}`);
         setProduct(res.data);
+
+        // ✅ Auto-select first size
+        if (res.data.sizes && res.data.sizes.length > 0) {
+          const defaultSize = res.data.sizes[0];
+          setSelectedSize(defaultSize);
+          setCurrentPrice({
+            original: defaultSize.originalPrice,
+            sale: defaultSize.salePrice,
+          });
+        }
       } catch (err) {
-        setError("Failed to load product details" + err);
+        setError("Failed to load product: " + err.message);
       } finally {
         setLoading(false);
       }
@@ -71,25 +100,59 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  // ✅ Fetch related products
   useEffect(() => {
     const fetchRelatedProd = async () => {
       try {
         const relProd = await api.get("/products");
         setRelatedProduct(relProd.data);
-        // console.log(relProd.data);
       } catch (error) {
-        console.log("from Fetch related products  ", error.message);
-        setError("Error at Related Product fetch" + error.message);
+        console.log("Error fetching related products:", error.message);
       }
     };
     fetchRelatedProd();
   }, []);
-  // console.log(productDetails);
 
-  // for related products
+  // ✅ Handle Add to Cart - Sends to BACKEND
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      alert("Please login to add items to cart");
+      navigate("/login");
+      return;
+    }
+
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    setAddingToCart(true);
+
+    try {
+      // ✅ Dispatch async thunk to add to backend
+      await dispatch(
+        addToCartBackend({
+          productId: product._id,
+          selectedSize: {
+            dimension: selectedSize.dimension,
+            originalPrice: selectedSize.originalPrice,
+            salePrice: selectedSize.salePrice,
+          },
+          qty: 1,
+        }),
+      ).unwrap();
+
+      alert(`✅ Added "${product.title}" (${selectedSize.dimension}) to cart!`);
+    } catch (error) {
+      alert(`❌ ${error}`);
+    } finally {
+      setAddingToCart(false);
+    }
+  };
 
   if (loading) return <p className="text-center py-5">Loading...</p>;
   if (error) return <p className="text-danger text-center">{error}</p>;
+  if (!product) return <p className="text-center">Product not found</p>;
 
   return (
     <div className="container py-5">
@@ -112,72 +175,86 @@ const ProductDetail = () => {
           <div className="section-1 mb-5">
             <h2>{product.title}</h2>
             <p className="text-muted">{product.category}</p>
-            <div className="d-flex gap-2 align-items-center">
-              <h3 className="fw-bold my-3">
-                <span>
-                  <FaRupeeSign />
-                </span>
-                {product.price}
-              </h3>{" "}
-              <span>
-                <FaMinus />
-              </span>
-              <h3 className="fw-bold my-3">
-                <span>
-                  <FaRupeeSign />
-                </span>
-                {product.price}
-              </h3>
-              <span>
-                <LuAmpersand />
-                <span> Free Shipping</span>
-              </span>
-            </div>
-            <p>{product.description}</p>
-            {/* Frame Size Selection */}
-            <div className="my-3">
-              {sizes.map((el, ind) => (
-                <button
-                  key={ind}
-                  type="button"
-                  onClick={() => setSelectedSize(el)}
-                  className={`btn btn-sm me-3 px-3 ${
-                    selectedSize === el ? "btn-dark" : "btn-outline-secondary"
-                  }`}
-                >
-                  {el}
-                </button>
-              ))}
 
-              {/* Clear Button */}
-              {selectedSize && (
-                <button
-                  type="button"
-                  className="btn btn-outline-dark btn-sm ms-2"
-                  onClick={() => setSelectedSize(null)}
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-
-            {/* Price Section */}
-            {selectedSize && (
-              <div className="d-flex gap-2 align-items-center my-2">
-                <h5 className="text-muted text-decoration-line-through mb-0">
-                  <FaRupeeSign /> {product.price + 500}
-                </h5>
-                <h4 className="fw-bold mb-0">
-                  <FaRupeeSign /> {product.price}
-                </h4>
+            {/* ✅ Show current pricing */}
+            {currentPrice && (
+              <div className="d-flex gap-2 align-items-center">
+                <h3 className="fw-bold my-3 text-muted text-decoration-line-through">
+                  <span>
+                    <FaRupeeSign />
+                  </span>
+                  {currentPrice.original.toLocaleString("en-IN")}
+                </h3>
+                <span>
+                  <FaMinus />
+                </span>
+                <h3 className="fw-bold my-3 text-success">
+                  <span>
+                    <FaRupeeSign />
+                  </span>
+                  {currentPrice.sale.toLocaleString("en-IN")}
+                </h3>
+                <span>
+                  <LuAmpersand />
+                  <span> Free Shipping</span>
+                </span>
               </div>
             )}
-            {/* <h4>{product.description}</h4> */}
-            <button className="btn btn-outline-secondary me-3">
-              Add to Cart
+
+            {/* ✅ Show savings */}
+            {currentPrice && (
+              <p className="text-success fw-bold">
+                You save: ₹
+                {(currentPrice.original - currentPrice.sale).toLocaleString(
+                  "en-IN",
+                )}
+              </p>
+            )}
+
+            <p>{product.description}</p>
+
+            {/* ✅ Size selection */}
+            <div className="my-3">
+              <h6 className="mb-2 fw-bold">Select Frame Size:</h6>
+              {product.sizes &&
+                product.sizes.map((sizeOption, ind) => (
+                  <button
+                    key={ind}
+                    type="button"
+                    onClick={() => handleSizeSelect(sizeOption)}
+                    className={`btn btn-sm me-3 px-3 mb-2 ${
+                      selectedSize?.dimension === sizeOption.dimension
+                        ? "btn-dark"
+                        : "btn-outline-secondary"
+                    }`}
+                  >
+                    {sizeOption.dimension}
+                  </button>
+                ))}
+            </div>
+
+            {/* ✅ Selected size info */}
+            {selectedSize && (
+              <div className="alert alert-info py-2">
+                <small>
+                  <strong>Selected Size:</strong> {selectedSize.dimension} |
+                  <strong> Price:</strong> ₹
+                  {selectedSize.salePrice.toLocaleString("en-IN")}
+                </small>
+              </div>
+            )}
+
+            {/* ✅ Action buttons */}
+            <button
+              className="btn btn-outline-secondary me-3"
+              onClick={handleAddToCart}
+              disabled={addingToCart}
+            >
+              {addingToCart ? "Adding..." : "Add to Cart"}
             </button>
             <button className="btn-in px-4 py-2">Buy Now</button>
           </div>
+
           <div className="card">
             <h5 className="text-center fw-bold my-4">
               Guaranteed Safe Checkout
@@ -191,6 +268,7 @@ const ProductDetail = () => {
         </div>
       </div>
       <hr />
+
       {/* Tabs section */}
       <TabContext value={tabValue}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -217,11 +295,7 @@ const ProductDetail = () => {
               ))}
             </ul>
 
-            {/* ADDITIONAL INFO TAB */}
-
-            {/*     {item.description}   */}
             <h3 className="fw-bold">Symbolism & Significance</h3>
-
             {details.symbolism.map((item, index) => (
               <li key={index} className="mb-2 mx-4">
                 <strong>{item.title}:</strong>
@@ -245,31 +319,50 @@ const ProductDetail = () => {
           </div>
         </TabPanel>
 
+        {/* Additional Info */}
         <TabPanel value="2">
           <div className="container mt-4">
-            <table className="table table-bordered w-auto">
-              <tbody>
+            <h4 className="fw-bold mb-3">Available Sizes & Pricing</h4>
+            <table className="table table-bordered">
+              <thead>
                 <tr>
-                  <th className="bg-light text-start px-4 py-2">Dimensions</th>
-                  {sizes.map((el, ind) => (
-                    <td key={ind} className="px-4 py-2 section-1">
-                      {el}
-                    </td>
-                  ))}
+                  <th className="bg-light">Dimension</th>
+                  <th className="bg-light">Original Price</th>
+                  <th className="bg-light">Sale Price</th>
+                  <th className="bg-light">You Save</th>
                 </tr>
+              </thead>
+              <tbody>
+                {product.sizes &&
+                  product.sizes.map((size, ind) => (
+                    <tr key={ind}>
+                      <td className="fw-bold">{size.dimension}</td>
+                      <td className="text-muted text-decoration-line-through">
+                        ₹{size.originalPrice.toLocaleString("en-IN")}
+                      </td>
+                      <td className="text-success fw-bold">
+                        ₹{size.salePrice.toLocaleString("en-IN")}
+                      </td>
+                      <td className="text-danger fw-bold">
+                        ₹
+                        {(size.originalPrice - size.salePrice).toLocaleString(
+                          "en-IN",
+                        )}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </TabPanel>
-        {/* REVIEWS / RELATED PRODUCTS TAB */}
+
+        {/* REVIEWS TAB */}
         <TabPanel value="3">
           <div className="card section-1 p-5">
             <form action="">
               <div className="row section-1">
                 <div className="col-md-6">
-                  <h4>
-                    Be the first to review “Yanai Lakshmi Tanjore Painting”
-                  </h4>
+                  <h4>Be the first to review "{product.title}"</h4>
                   <p className="py-2">
                     Your email address will not be published. Required fields
                     are marked *
@@ -297,13 +390,16 @@ const ProductDetail = () => {
                   <input type="email" className="form-control py-3" />
                 </div>
                 <div className="col-md-8 mt-3">
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
                       className="form-check-input"
                       type="checkbox"
                       id="flexCheckDefault"
                     />
-                    <label className="form-check-label" for="flexCheckDefault">
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckDefault"
+                    >
                       Save my name, email, and website in this browser for the
                       next time I comment.
                     </label>
@@ -322,9 +418,10 @@ const ProductDetail = () => {
           </div>
         </TabPanel>
       </TabContext>
+
       <div>
         <h1 className="fw-bold section-1">Related Products</h1>
-        <ProductGrid products={relatedProduct} start={8} limit={3} />
+        <ProductGrid products={relatedProduct} limit={3} />
       </div>
     </div>
   );

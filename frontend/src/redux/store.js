@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
+import authReducer from "./authSlice";
 
-// mock auth reducer for now
-const authReducer = (state = { isLoggedIn: true }) => state;
-
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     cart: cartReducer,
-    auth: authReducer,
+    auth: authReducer, // ←  Register auth reducer
   },
 });
+
+export default store;

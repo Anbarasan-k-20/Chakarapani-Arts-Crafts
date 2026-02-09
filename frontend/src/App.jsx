@@ -9,7 +9,18 @@ import CartPage from "./pages/CartPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import PagenotFound from "./pages/pageNotFound/PagenotFound";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useEffect } from "react"; // ← ADD
+import { useDispatch } from "react-redux"; // ← ADD
+import { restoreSession } from "./redux/authSlice"; // ← ADD
 const App = () => {
+  const dispatch = useDispatch(); // ← ADD
+
+  // ← ADD: Check if user was logged in before (on page refresh)
+  useEffect(() => {
+    dispatch(restoreSession());
+  }, [dispatch]);
+
   return (
     <>
       <BrowserRouter>
