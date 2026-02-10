@@ -2,14 +2,19 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api/axiosInstance";
 
 // ✅ Async thunk to fetch cart from backend
-export const fetchCart = createAsyncThunk("cart/fetchCart", async (_, { rejectWithValue }) => {
-  try {
-    const response = await api.get("/cart");
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response?.data?.message || "Failed to fetch cart");
-  }
-});
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/cart");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch cart",
+      );
+    }
+  },
+);
 
 // ✅ Async thunk to add item to cart (backend)
 export const addToCartBackend = createAsyncThunk(
@@ -23,9 +28,11 @@ export const addToCartBackend = createAsyncThunk(
       });
       return response.data.cart;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add to cart");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to add to cart",
+      );
     }
-  }
+  },
 );
 
 // ✅ Async thunk to increase quantity
@@ -36,9 +43,11 @@ export const increaseQtyBackend = createAsyncThunk(
       const response = await api.patch(`/cart/increase/${itemId}`);
       return response.data.cart;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to increase quantity");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to increase quantity",
+      );
     }
-  }
+  },
 );
 
 // ✅ Async thunk to decrease quantity
@@ -49,9 +58,11 @@ export const decreaseQtyBackend = createAsyncThunk(
       const response = await api.patch(`/cart/decrease/${itemId}`);
       return response.data.cart;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to decrease quantity");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to decrease quantity",
+      );
     }
-  }
+  },
 );
 
 // ✅ Async thunk to remove item
@@ -62,9 +73,11 @@ export const removeFromCartBackend = createAsyncThunk(
       const response = await api.delete(`/cart/remove/${itemId}`);
       return response.data.cart;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to remove item");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to remove item",
+      );
     }
-  }
+  },
 );
 
 // ✅ Async thunk to clear cart
@@ -75,9 +88,11 @@ export const clearCartBackend = createAsyncThunk(
       const response = await api.delete("/cart/clear");
       return response.data.cart;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to clear cart");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to clear cart",
+      );
     }
-  }
+  },
 );
 
 const cartSlice = createSlice({
@@ -129,32 +144,28 @@ const cartSlice = createSlice({
       });
 
     // ✅ Increase Quantity
-    builder
-      .addCase(increaseQtyBackend.fulfilled, (state, action) => {
-        state.items = action.payload.items || [];
-        state.totalAmount = action.payload.totalAmount || 0;
-      });
+    builder.addCase(increaseQtyBackend.fulfilled, (state, action) => {
+      state.items = action.payload.items || [];
+      state.totalAmount = action.payload.totalAmount || 0;
+    });
 
     // ✅ Decrease Quantity
-    builder
-      .addCase(decreaseQtyBackend.fulfilled, (state, action) => {
-        state.items = action.payload.items || [];
-        state.totalAmount = action.payload.totalAmount || 0;
-      });
+    builder.addCase(decreaseQtyBackend.fulfilled, (state, action) => {
+      state.items = action.payload.items || [];
+      state.totalAmount = action.payload.totalAmount || 0;
+    });
 
     // ✅ Remove from Cart
-    builder
-      .addCase(removeFromCartBackend.fulfilled, (state, action) => {
-        state.items = action.payload.items || [];
-        state.totalAmount = action.payload.totalAmount || 0;
-      });
+    builder.addCase(removeFromCartBackend.fulfilled, (state, action) => {
+      state.items = action.payload.items || [];
+      state.totalAmount = action.payload.totalAmount || 0;
+    });
 
     // ✅ Clear Cart
-    builder
-      .addCase(clearCartBackend.fulfilled, (state, action) => {
-        state.items = [];
-        state.totalAmount = 0;
-      });
+    builder.addCase(clearCartBackend.fulfilled, (state) => {
+      state.items = [];
+      state.totalAmount = 0;
+    });
   },
 });
 
