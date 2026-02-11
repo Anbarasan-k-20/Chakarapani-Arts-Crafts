@@ -272,7 +272,36 @@ const ProductDetail = () => {
       {/* Tabs section */}
       <TabContext value={tabValue}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleTabChange}>
+          <TabList
+            onChange={handleTabChange}
+            sx={{
+              // Default tab styling
+              "& .MuiTab-root": {
+                textTransform: "none",
+                fontWeight: 600,
+                color: "#555",
+                transition: "all 0.3s ease",
+
+                // 🔥 Hover effect
+                "&:hover": {
+                  color: "#852b28",
+                  backgroundColor: "rgba(133,43,40,0.08)",
+                },
+              },
+
+              // ✅ Active tab
+              "& .Mui-selected": {
+                color: "#852b28 !important",
+              },
+
+              // 📌 Indicator (underline)
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#852b28",
+                height: "3px",
+                borderRadius: "3px",
+              },
+            }}
+          >
             <Tab label="Description" value="1" />
             <Tab label="Additional Info" value="2" />
             <Tab label="Reviews" value="3" />

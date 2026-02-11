@@ -100,8 +100,8 @@ const Signup = () => {
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-5">
           <div className="card shadow-lg border-0">
-            <div className="card-body p-4 p-md-5">
-              <h2 className="text-center mb-4 fw-bold text-primary">
+            <div className="card-body p-4 p-md-5 section-1">
+              <h2 className="text-center mb-4 fw-bold section-1">
                 Create Account
               </h2>
 
@@ -232,7 +232,7 @@ const Signup = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 py-2 fw-semibold"
+                  className="btn-in w-100 py-2 fw-semibold"
                   disabled={loading}
                 >
                   {loading ? (
@@ -257,7 +257,7 @@ const Signup = () => {
 
               {/* Login Link */}
               <div className="text-center">
-                <Link to="/login" className="btn btn-outline-primary w-100">
+                <Link to="/login" className="btn btn-outline-dark w-100">
                   <i className="fas fa-sign-in-alt me-2"></i>
                   Sign In
                 </Link>

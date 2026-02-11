@@ -113,7 +113,7 @@ const Navbar = () => {
                   placeholder="Search Paintings"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                  // onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 />
                 <button
                   onClick={handleSearch}
@@ -170,7 +170,14 @@ const Navbar = () => {
             {/* Cart - No changes */}
             <Link to="/cart" className="nav-link custom-nav-link section-1">
               <FaShoppingCart />
-              <span>{cartCount}</span>
+              {cartCount > 0 && (
+                <span
+                  className="position-absolute top-0 start-100 
+                   translate-middle badge rounded-pill footer-section"
+                >
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
             </Link>
 
             {/* ← CHANGED: User Icon with Dropdown */}
@@ -191,10 +198,7 @@ const Navbar = () => {
 
                   {/* User Dropdown Menu */}
                   {showUserMenu && (
-                    <div
-                      className="dropdown-menu show position-absolute end-0 shadow"
-                      style={{ minWidth: "220px", marginTop: "0.5rem" }}
-                    >
+                    <div className="dropdown-menu show position-absolute end-0 shadow nav-user-card">
                       {/* User Info */}
                       <div className="px-3 py-2 border-bottom bg-light">
                         <p className="mb-1 fw-bold text-dark">{user?.name}</p>
@@ -203,7 +207,7 @@ const Navbar = () => {
 
                       {/* Logout Button */}
                       <button
-                        className="dropdown-item text-danger fw-semibold py-2"
+                        className="dropdown-item fw-semibold py-2 section-1"
                         onClick={handleLogout}
                       >
                         <i className="fas fa-sign-out-alt me-2"></i>

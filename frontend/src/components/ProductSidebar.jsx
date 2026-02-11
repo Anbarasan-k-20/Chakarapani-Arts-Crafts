@@ -1,16 +1,16 @@
 import api from "../api/axiosInstance.js";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaRupeeSign } from "react-icons/fa";
-import { FaCartShopping } from "react-icons/fa6";
+// import "./ProductSidebar.css";
 
 const ProductSidebar = () => {
-  // 🔹 Holds all products (single source of truth)
   const [products, setProducts] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  // 🔹 Holds dropdown selected value (acts as search text)
-  const [selectedValue, setSelectedValue] = useState("");
+  const navigate = useNavigate();
 
-  // 🔹 Fetch products ONCE
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -23,131 +23,104 @@ const ProductSidebar = () => {
     getProducts();
   }, []);
 
-  // 🔹 Normalize search value
-  const q = selectedValue.toLowerCase().trim();
+  const filteredProducts = products.filter((product) =>
+    product.title?.toLowerCase().includes(searchText.toLowerCase()),
+  );
 
-  // 🔹 Filter logic (title || category || description)
-  const filteredProducts = products.filter((product) => {
-    if (!q) return true;
-
-    return (
-      product.title?.toLowerCase().includes(q) ||
-      product.category?.toLowerCase().includes(q) ||
-      product.description?.toLowerCase().includes(q)
-    );
-  });
-
-  // 🔹 UI decision flag
-  const isSearching = q.length > 0;
+  const handleProductClick = (id) => {
+    setSearchText("");
+    setShowDropdown(false);
+    navigate(`/product/${id}`);
+  };
 
   return (
     <aside className="col-md-3">
-      {/* ================= CATEGORY SEARCH ================= */}
-      <div className="mb-5">
+      {/* ================= SEARCH ================= */}
+      <div className="mb-4 position-relative">
         <h5 className="fw-bold mb-3">Search Products</h5>
 
-        <select
-          className="form-select"
-          value={selectedValue}
-          onChange={(e) => setSelectedValue(e.target.value)}
-        >
-          <option value="">Search by title</option>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search products..."
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            setShowDropdown(true);
+          }}
+          onFocus={() => setShowDropdown(true)}
+        />
 
-          {/* Dropdown options based on product titles */}
-          {products.map((product) => (
-            <option key={product.id} value={product.title}>
-              {product.title}
-            </option>
-          ))}
-        </select>
+        {showDropdown && searchText && (
+          <div className="search-dropdown bg-white shadow rounded mt-1 position-absolute w-100">
+            {filteredProducts.length === 0 && (
+              <div className="p-3 text-muted">No products found</div>
+            )}
+
+            {filteredProducts.slice(0, 6).map((item) => (
+              <div
+                key={item.id}
+                className="d-flex gap-2 p-2 align-items-center border-bottom sidebar-item"
+                onClick={() => handleProductClick(item.id)}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="sidebar-img-sm"
+                />
+                <div>
+                  <div className="small fw-semibold">{item.title}</div>
+                  <div className="small text-muted">
+                    <FaRupeeSign /> {item.price}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* ================= SEARCH RESULT MODE ================= */}
-      {isSearching && (
-        <div className="section-1 ms-4">
-          <h4 className="fw-bold mb-4">Search Results</h4>
+      {/* ================= RECENTLY VIEWED ================= */}
+      <div className="ms-2">
+        <h5 className="fw-bold mb-3">Recently Viewed</h5>
 
-          {filteredProducts.length === 0 && (
-            <p className="text-muted">No products found</p>
-          )}
-
-          {filteredProducts.map((item) => (
-            <div key={item.id} className="d-flex gap-3 mb-3">
-              <img
-                src={item.image}
-                alt={item.title}
-                className="img-fluid"
-                style={{ width: "100px", objectFit: "cover" }}
-              />
-
-              <div>
-                <p className="mb-1 text-dark">{item.title}</p>
-                <p className="mb-0 small">
-                  <FaRupeeSign /> {item.price}
-                </p>
-                <button className="btn btn-outline-dark btn-sm mt-2">
-                  <FaCartShopping />
-                </button>
-              </div>
+        {products.slice(5, 10).map((item) => (
+          <div
+            key={item.id}
+            className="d-flex gap-3 mb-3 sidebar-item"
+            onClick={() => navigate(`/product/${item.id}`)}
+          >
+            <img src={item.image} alt={item.title} className="sidebar-img-md" />
+            <div>
+              <p className="mb-1 small">{item.title}</p>
+              <p className="mb-0 small text-muted">
+                <FaRupeeSign /> {item.price}
+              </p>
             </div>
-          ))}
-        </div>
-      )}
-
-      {/* ================= DEFAULT MODE ================= */}
-      {!isSearching && (
-        <>
-          {/* Recently Viewed */}
-          <div className="section-1 ms-4">
-            <h4 className="fw-bold mb-4 p-3">Recently Viewed Products</h4>
-            {products.slice(5, 10).map((item) => (
-              <div key={item.id} className="d-flex gap-3 mb-3">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="img-fluid"
-                  style={{ width: "100px", objectFit: "cover" }}
-                />
-
-                <div>
-                  <p className="mb-1 text-dark">{item.title}</p>
-                  <p className="mb-0 small">
-                    <FaRupeeSign /> {item.price}
-                  </p>
-                  <button className="btn btn-outline-dark btn-sm mt-2">
-                    <FaCartShopping />
-                  </button>
-                </div>
-              </div>
-            ))}
           </div>
+        ))}
+      </div>
 
-          {/* Top Rated */}
-          <div className="section-1 ms-4">
-            <h3 className="fw-bold mb-4 py-4">Top Rated Products</h3>
-            {products.slice(0, 5).map((item) => (
-              <div key={item.id} className="d-flex gap-3 mb-3">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="img-fluid"
-                  style={{ width: "100px", objectFit: "cover" }}
-                />
+      {/* ================= TOP RATED ================= */}
+      <div className="ms-2 mt-4">
+        <h5 className="fw-bold mb-3">Top Rated</h5>
 
-                <div>
-                  <p className="mb-1 text-dark">{item.title}</p>
-                  <p className="mb-0 small">
-                    <FaRupeeSign /> {item.price}
-                  </p>
-                  <button className="btn btn-outline-dark btn-sm mt-2">
-                    <FaCartShopping />
-                  </button>
-                </div>
-              </div>
-            ))}
+        {products.slice(0, 5).map((item) => (
+          <div
+            key={item.id}
+            className="d-flex gap-3 mb-3 sidebar-item"
+            onClick={() => navigate(`/product/${item.id}`)}
+          >
+            <img src={item.image} alt={item.title} className="sidebar-img-md" />
+            <div>
+              <p className="mb-1 small">{item.title}</p>
+              <p className="mb-0 small text-muted">
+                <FaRupeeSign /> {item.price}
+              </p>
+            </div>
           </div>
-        </>
-      )}
+        ))}
+      </div>
     </aside>
   );
 };

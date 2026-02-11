@@ -1,4 +1,12 @@
 import { Link } from "react-router-dom";
+import {
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+} from "react-icons/fa";
 
 const Footer = () => {
   const payment_img = "../src/assets/client_img/payment-image.png";
@@ -6,200 +14,178 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer-section text-white">
-      <div className="container py-5 px-5 ">
-        {/* Top Footer */}
-        <div className="row gy-4">
-          {/* Quick Links */}
-          <div className="col-12 col-md-3">
-            <h5 className="fw-bold pb-5">Quick Links</h5>
-            <ul className="list-unstyled footer-links">
-              <li>
-                <Link to="/contact" className="hov-col text-decoration-none">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hov-col text-decoration-none">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/awards" className="hov-col text-decoration-none">
-                  Our Awards
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="hov-col text-decoration-none">
-                  News & Media
-                </Link>
-              </li>
-              <li>
-                <Link to="/cart" className="hov-col text-decoration-none">
-                  Cart
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Important Links */}
-          <div className="col-12 col-md-3">
-            <h5 className="fw-bold pb-5">Important Links</h5>
-            <ul className="list-unstyled footer-links">
-              <li>
-                <Link to="/returns" className="hov-col text-decoration-none">
-                  Cancellation & Returns
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hov-col text-decoration-none">
-                  Terms of Use
-                </Link>
-              </li>
-              <li>
-                <Link to="/security" className="hov-col text-decoration-none">
-                  Security
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="hov-col text-decoration-none">
-                  Privacy
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Explore */}
-          <div className="col-12 col-md-3">
-            <h5 className="fw-bold pb-5">Explore</h5>
-            <ul className="list-unstyled footer-links">
-              <li>
-                <Link
-                  to="/bestsellers"
-                  className="hov-col text-decoration-none"
-                >
-                  Bestsellers
-                </Link>
-              </li>
-              <li>
-                <Link to="/sale" className="hov-col text-decoration-none">
-                  On Sale
-                </Link>
-              </li>
-              <li>
-                <Link to="/best-2022" className="hov-col text-decoration-none">
-                  Best Of 2022
-                </Link>
-              </li>
-              <li>
-                <Link to="/featured" className="hov-col text-decoration-none">
-                  Featured
-                </Link>
-              </li>
-              <li>
-                <Link to="/gift-card" className="hov-col text-decoration-none">
-                  Gift Card
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Help */}
-          <div className="col-12 col-md-3">
-            <h5 className="fw-bold pb-5">Help</h5>
-            <ul className="list-unstyled footer-links">
-              <li>
-                <Link
-                  to="/track-order"
-                  className="hov-col text-decoration-none"
-                >
-                  Track Order
-                </Link>
-              </li>
-              <li>
-                <Link to="/delivery" className="hov-col text-decoration-none">
-                  Delivery & Returns
-                </Link>
-              </li>
-              <li>
-                <Link to="/faqs" className="hov-col text-decoration-none">
-                  FAQs
-                </Link>
-              </li>
-              <li>
-                <Link to="/community" className="hov-col text-decoration-none">
-                  Community
-                </Link>
-              </li>
-            </ul>
-
+    <footer className="footer-section">
+      <div className="container py-5">
+        <div className="row g-4">
+          {/* Logo & About */}
+          <div className="col-lg-3 col-md-6">
+            <img
+              src={Logo}
+              alt="Chakrapani Arts & Crafts"
+              className="footer-logo mb-3"
+            />
+            <p className="text-white-50 small mb-3">
+              Bringing traditional Indian art and crafts to your home with
+              exquisite handcrafted pieces.
+            </p>
             {/* Social Icons */}
-            <div className="d-flex gap-3 mt-3">
-              <i className="bi bi-facebook text-decoration-none"></i>
-              <i className="bi bi-twitter text-decoration-none"></i>
-              <i className="bi bi-instagram text-decoration-none"></i>
+            <div className="d-flex gap-2">
+              <a
+                href="https://facebook.com"
+                className="social-icon"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaFacebookF />
+              </a>
+              <a
+                href="https://twitter.com"
+                className="social-icon"
+                aria-label="Twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter />
+              </a>
+              <a
+                href="https://instagram.com"
+                className="social-icon"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaInstagram />
+              </a>
             </div>
           </div>
-        </div>
-        <div className="row gy">
-          <div className="col-12 col-md-3">
-            <img
-              className="mt-3"
-              src={Logo}
-              alt="chakarapani Logo"
-              height="150"
-            />
-          </div>
-          <div className="col-12 col-md-3">
-            <h5 className="fw-bold mb-3">Quick Links</h5>
+
+          {/* Quick Links */}
+          <div className="col-lg-2 col-md-6">
+            <h6 className="footer-heading text-white mb-3">Quick Links</h6>
             <ul className="list-unstyled footer-links">
               <li>
-                <Link to="/" className="hov-col text-decoration-none">
-                  Home
-                </Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/indoor" className="hov-col text-decoration-none">
-                  Indoor
-                </Link>
+                <Link to="/products">Shop</Link>
               </li>
               <li>
-                <Link to="/outdoors" className="hov-col text-decoration-none">
-                  Outdoors
-                </Link>
+                <Link to="/about">About Us</Link>
               </li>
               <li>
-                <Link to="/about" className="hov-col text-decoration-none">
-                  About
-                </Link>
+                <Link to="/contact">Contact</Link>
               </li>
               <li>
-                <Link to="/contact" className="hov-col text-decoration-none">
-                  Contact
-                </Link>
+                <Link to="/cart">Cart</Link>
               </li>
             </ul>
           </div>
-          <div className="col-12 col-md-3 mt-3">
-            <h4 className="fw-bold">For Enquiry</h4>
-            
+
+          {/* Customer Service */}
+          <div className="col-lg-2 col-md-6">
+            <h6 className="footer-heading text-white mb-3">Customer Care</h6>
+            <ul className="list-unstyled footer-links">
+              <li>
+                <Link to="/track-order">Track Order</Link>
+              </li>
+              <li>
+                <Link to="/returns">Returns & Exchange</Link>
+              </li>
+              <li>
+                <Link to="/delivery">Shipping Info</Link>
+              </li>
+              <li>
+                <Link to="/faqs">FAQs</Link>
+              </li>
+              <li>
+                <Link to="/terms">Terms & Conditions</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Categories */}
+          <div className="col-lg-2 col-md-6">
+            <h6 className="footer-heading text-white mb-3">Categories</h6>
+            <ul className="list-unstyled footer-links">
+              <li>
+                <Link to="/products?search=paintings">Paintings</Link>
+              </li>
+              <li>
+                <Link to="/products?search=sculptures">Sculptures</Link>
+              </li>
+              <li>
+                <Link to="/bestsellers">Bestsellers</Link>
+              </li>
+              <li>
+                <Link to="/featured">Featured</Link>
+              </li>
+              <li>
+                <Link to="/gift-card">Gift Cards</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div className="col-lg-3 col-md-6">
+            <h6 className="footer-heading text-white mb-3">Get In Touch</h6>
+            <ul className="list-unstyled footer-contact">
+              <li className="mb-2">
+                <FaMapMarkerAlt className="me-2" />
+                <span>
+                  No.22, 8th Street, Kamraj Nagar,
+                  <br />
+                  Kumbakonam, Thanjavur – 612001
+                </span>
+              </li>
+              <li className="mb-2">
+                <FaPhoneAlt className="me-2" />
+                <a href="tel:+919444150104">+91 94441 50104</a>
+              </li>
+              <li className="mb-3">
+                <FaEnvelope className="me-2" />
+                <a href="mailto:chakrapaniart@gmail.com">
+                  chakrapaniart@gmail.com
+                </a>
+              </li>
+            </ul>
+
+            {/* Payment Methods */}
+            <div className="mt-4">
+              {/* <p className="fw-bold mb-2">We Accept</p> */}
+              <img
+                src={payment_img}
+                alt="Payment Methods"
+                // className="img-fluid"
+                // style={{ maxWidth: "180px" }}
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="footer-bottom py-4">
-        <div className="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-          <strong>
-            <span>© {currentYear} Chakrapani Arts & Crafts</span>
-          </strong>
-
-          <span>
-            Developed by <strong>Vyoobam Tech</strong>
-          </span>
-
-          <div className="d-flex gap-2">
-            <img src={payment_img} alt="card" height="22" />
+      <div className="footer-bottom">
+        <div className="container py-3">
+          <div className="row align-items-center">
+            <div className="col-md-6 text-center text-md-start mb-2 mb-md-0">
+              <p className="mb-0 small">
+                © {currentYear} Chakrapani Arts & Crafts. All Rights Reserved.
+              </p>
+            </div>
+            <div className="col-md-6 text-center text-md-end">
+              <p className="mb-0 small">
+                Developed By{" "}
+                <a
+                  href="https://vyoobam.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="developer-link"
+                >
+                  Vyoobam Tech
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

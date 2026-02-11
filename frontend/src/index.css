@@ -6,6 +6,13 @@ body {
   background-color: #faf7eb !important;
   color: #852b28 !important;
 }
+
+/* navbar user card */
+/* min-width: "220px", marginTop: "0.5rem" } */
+.nav-user-card{
+  min-width: 320px;
+  margin-top: 0.5rem;
+}
 /* #852B28 */
 .section-1 {
   color: #852b28 !important;
