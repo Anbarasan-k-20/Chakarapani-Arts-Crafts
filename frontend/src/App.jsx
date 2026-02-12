@@ -8,22 +8,27 @@ import AllProducts from "./pages/AllProducts";
 import CartPage from "./pages/CartPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import CheckoutPage from "./pages/CheckoutPage";
+// ✅ NEW: Import checkout page
+import OrdersPage from "./pages/OrderPage";
+// ✅ NEW: Import orders page
 import PagenotFound from "./pages/pageNotFound/PagenotFound";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useEffect } from "react"; // ← ADD
-import { useDispatch } from "react-redux"; // ← ADD
-import { restoreSession } from "./redux/authSlice"; // ← ADD
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { restoreSession } from "./redux/authSlice";
 import { fetchCart } from "./redux/cartSlice";
+
 const App = () => {
-  const dispatch = useDispatch(); // ← ADD
+  const dispatch = useDispatch();
 
-  // ← ADD: Check if user was logged in before (on page refresh)
   useEffect(() => {
-    dispatch(restoreSession()); // Sets Redux state
+    dispatch(restoreSession());
 
-    const token = localStorage.getItem("token"); // ✅ Read directly!
-    if (token) dispatch(fetchCart()); // Don't wait for Redux state
-  }, [dispatch]); // Runs ONCE on mount — cart ready immediately
+    const token = localStorage.getItem("token");
+    if (token) dispatch(fetchCart());
+  }, [dispatch]);
+
   return (
     <>
       <BrowserRouter>
@@ -33,6 +38,10 @@ const App = () => {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/allproduct" element={<AllProducts />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          {/* ✅ NEW: Checkout route */}
+          <Route path="/orders" element={<OrdersPage />} />
+          {/* ✅ NEW: Orders route */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<PagenotFound />} />

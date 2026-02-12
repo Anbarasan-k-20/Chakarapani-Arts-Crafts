@@ -6,7 +6,10 @@ import cors from "cors";
 // ✅ Import routes
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import cartRoutes from "./routes/cartRoutes.js"; 
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+// ✅ NEW: Import order routes
+
 dotenv.config();
 connectDB();
 
@@ -19,7 +22,9 @@ app.use(express.json());
 // ✅ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes); // ✅ - handles /api/cart endpoints
+app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
+// ✅ NEW: Register order routes
 
 // ✅ Test route
 app.get("/", (req, res) => {

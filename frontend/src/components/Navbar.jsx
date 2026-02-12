@@ -208,6 +208,15 @@ const Navbar = () => {
                       {/* Logout Button */}
                       <button
                         className="dropdown-item fw-semibold py-2 section-1"
+                        onClick={() => {
+                          navigate("/orders");
+                        }}
+                      >
+                        {/* <i className="fas fa-sign-out-alt me-2"></i> */}
+                        My Orders
+                      </button>
+                      <button
+                        className="dropdown-item fw-semibold py-2 section-1"
                         onClick={handleLogout}
                       >
                         <i className="fas fa-sign-out-alt me-2"></i>
@@ -217,9 +226,9 @@ const Navbar = () => {
                   )}
                 </>
               ) : (
-                // Not Logged In - Redirect to Signup
+                // Not Logged In - Redirect to login
                 <Link
-                  to="/signup"
+                  to="/login"
                   className="nav-link custom-nav-link section-1"
                 >
                   <FaUser />

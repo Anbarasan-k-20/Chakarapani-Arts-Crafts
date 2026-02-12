@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { FaRupeeSign, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   fetchCart,
   increaseQtyBackend,
@@ -11,6 +12,7 @@ import ProductSidebar from "../components/ProductSidebar";
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const {
     items: cartItems,
     totalAmount,
@@ -151,11 +153,23 @@ const CartPage = () => {
             ))}
 
             {/* ✅ Cart total */}
+            {/* ✅ CHECKOUT BUTTON */}
             <div className="text-end mt-4">
               <h5>
                 Total: <FaRupeeSign /> {totalAmount.toLocaleString("en-IN")}
               </h5>
-              <button className="btn btn-dark mt-2">Proceed to Checkout</button>
+              <button
+                className="btn btn-dark mt-2 me-2"
+                onClick={() => navigate("/checkout")}
+              >
+                Proceed to Checkout
+              </button>
+              <button
+                className="btn btn-outline-dark mt-2"
+                onClick={() => navigate("/allproduct")}
+              >
+                Continue Shopping
+              </button>
             </div>
           </>
         )}
