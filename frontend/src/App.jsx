@@ -15,19 +15,36 @@ import OrdersPage from "./pages/OrderPage";
 import PagenotFound from "./pages/pageNotFound/PagenotFound";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { restoreSession } from "./redux/authSlice";
 import { fetchCart } from "./redux/cartSlice";
 
-const App = () => {
+function App() {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isSessionRestored = useSelector(
+    (state) => state.auth.isSessionRestored,
+  );
 
+  // ✅ Restore session on app load
   useEffect(() => {
     dispatch(restoreSession());
-
-    const token = localStorage.getItem("token");
-    if (token) dispatch(fetchCart());
   }, [dispatch]);
+
+  // ✅ Fetch cart when user logs in or session is restored
+  useEffect(() => {
+    if (isLoggedIn && isSessionRestored) {
+      dispatch(fetchCart());
+    }
+  }, [isLoggedIn, isSessionRestored, dispatch]);
+
+  if (!isSessionRestored) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -36,7 +53,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/allproduct" element={<AllProducts />} />
+          <Route path="/allproducts" element={<AllProducts />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           {/* ✅ NEW: Checkout route */}
@@ -50,6 +67,6 @@ const App = () => {
       </BrowserRouter>
     </>
   );
-};
+}
 
 export default App;

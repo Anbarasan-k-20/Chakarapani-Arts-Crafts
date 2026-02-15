@@ -1,5 +1,6 @@
 import FeaturedProducts from "./FeaturedProducts";
 import { PiGreaterThan } from "react-icons/pi";
+import { useScrollToSection } from "../../utils/useScrollToSection";
 // img exports
 const vishnu = "../src/assets/vishnu-828x1024.png";
 const img_1 = "../src/assets/section-2/img-1.jpg";
@@ -7,6 +8,10 @@ const img_2 = "../src/assets/section-2/img-2.jpg";
 const img_3 = "../src/assets/section-2/img-3.jpg";
 
 const SectionOne = () => {
+  // const navigate =useNavigate()
+
+  const [section3Ref, scrollToSection3] = useScrollToSection();
+
   return (
     <>
       <div className="navbar container-fluid">
@@ -27,7 +32,15 @@ const SectionOne = () => {
                 Indian crafts, honored with prestigious national awards.
               </p>
 
-              <button className="btn-in px-4 py-2 mt-3">Get Started <span><PiGreaterThan/></span></button>
+              <button
+                onClick={scrollToSection3}
+                className="btn-in px-3 py-1 mt-3 fw-bold"
+              >
+                Get Started{" "}
+                <span>
+                  <PiGreaterThan />
+                </span>
+              </button>
             </div>
             {/* RIGHT IMAGE */}
             <div className="col-md-6 text-center">
@@ -88,7 +101,7 @@ const SectionOne = () => {
         </div>
       </div>
       {/* section -3 starts here */}
-      <FeaturedProducts />
+      <FeaturedProducts section3Ref={section3Ref} />
     </>
   );
 };

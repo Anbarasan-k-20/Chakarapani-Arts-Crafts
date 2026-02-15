@@ -4,11 +4,11 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
-    user: null, // Will store: { id, name, email }
+    user: null,
     token: null,
+    isSessionRestored: false, // ← ADD THIS
   },
   reducers: {
-    // Called when user logs in successfully
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
       state.user = action.payload.user;
@@ -17,7 +17,6 @@ const authSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
 
-    // Called when user clicks logout
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
@@ -26,7 +25,6 @@ const authSlice = createSlice({
       localStorage.removeItem("user");
     },
 
-    // Called when app loads - checks if user was logged in before
     restoreSession: (state) => {
       const token = localStorage.getItem("token");
       const user = localStorage.getItem("user");
@@ -35,6 +33,7 @@ const authSlice = createSlice({
         state.token = token;
         state.user = JSON.parse(user);
       }
+      state.isSessionRestored = true; // ← ADD THIS
     },
   },
 });

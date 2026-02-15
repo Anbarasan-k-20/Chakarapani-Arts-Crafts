@@ -246,13 +246,13 @@ const ProductDetail = () => {
 
             {/* ✅ Action buttons */}
             <button
-              className="btn btn-outline-secondary me-3"
+              className="btn-in px-4 py-2"
               onClick={handleAddToCart}
               disabled={addingToCart}
             >
               {addingToCart ? "Adding..." : "Add to Cart"}
             </button>
-            <button className="btn-in px-4 py-2">Buy Now</button>
+            {/* <button >Buy Now</button> */}
           </div>
 
           <div className="card">

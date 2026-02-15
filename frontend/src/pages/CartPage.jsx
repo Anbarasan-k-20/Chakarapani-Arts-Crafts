@@ -71,7 +71,7 @@ const CartPage = () => {
         {cartItems.length === 0 ? (
           <div className="text-center py-5">
             <p className="text-muted">Your cart is empty</p>
-            <a href="/products" className="btn btn-dark mt-3">
+            <a href="/allproducts" className="btn btn-dark mt-3">
               Continue Shopping
             </a>
           </div>
@@ -166,7 +166,7 @@ const CartPage = () => {
               </button>
               <button
                 className="btn btn-outline-dark mt-2"
-                onClick={() => navigate("/allproduct")}
+                onClick={() => navigate("/allproducts")}
               >
                 Continue Shopping
               </button>

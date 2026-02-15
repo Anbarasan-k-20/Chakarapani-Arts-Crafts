@@ -153,10 +153,22 @@ const ProductGrid = ({ products = [], limit = 8 }) => {
                 )}
 
                 {/* Sizes available count */}
-                {product.sizes?.length > 1 && (
+                {/* {product.sizes?.length > 1 && (
                   <small className="text-muted">
                     {product.sizes.length} sizes
                   </small>
+                )} */}
+
+                {/* ✅ Show sizes as text */}
+                {product.sizes && product.sizes.length > 0 && (
+                  <div className="mt-2 d-flex">
+                    <p className="section-1 fw-bold me-2">Available Sizes:</p>
+                    {product.sizes.map((size, ind) => (
+                      <span key={ind} className="me-2 mt-1 text-muted small">
+                        {size.dimension}
+                      </span>
+                    ))}
+                  </div>
                 )}
 
                 {/* ✅ Add to Cart Button */}

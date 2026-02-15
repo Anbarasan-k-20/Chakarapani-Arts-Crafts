@@ -109,7 +109,7 @@ const OrdersPage = () => {
             <p className="text-muted">You haven't placed any orders yet.</p>
             <button
               className="btn btn-dark mt-3"
-              onClick={() => navigate("/allproduct")}
+              onClick={() => navigate("/allproducts")}
             >
               Start Shopping
             </button>

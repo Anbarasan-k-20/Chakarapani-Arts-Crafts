@@ -22,18 +22,19 @@ const Navbar = () => {
   // ← ADD: Get auth state from Redux
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
+  const cartItems = useSelector((state) => state.cart.items);
 
-  // Cart count (existing)
-  const cartCount = useSelector((state) =>
-    state.cart.items.reduce((s, i) => s + i.qty, 0),
-  );
+  // ✅ Show 0 if not logged in, otherwise show actual count
+  const cartCount = isLoggedIn
+    ? cartItems.reduce((sum, item) => sum + item.qty, 0)
+    : 0;
 
   const [isOpen, setIsOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false); // ← ADD: For user dropdown
 
   const handleSearch = () => {
     if (!query.trim()) return;
-    navigate(`/allproduct?search=${encodeURIComponent(query)}`);
+    navigate(`/allproducts?search=${encodeURIComponent(query)}`);
     setQuery("");
   };
 
@@ -126,7 +127,7 @@ const Navbar = () => {
 
             {/* Navigation Links - No changes */}
             <Link
-              to="/allproduct"
+              to="/allproducts"
               className="nav-link custom-nav-link section-1"
             >
               All Products
@@ -170,14 +171,9 @@ const Navbar = () => {
             {/* Cart - No changes */}
             <Link to="/cart" className="nav-link custom-nav-link section-1">
               <FaShoppingCart />
-              {cartCount > 0 && (
-                <span
-                  className="position-absolute top-0 start-100 
-                   translate-middle badge rounded-pill footer-section"
-                >
-                  {cartCount > 99 ? "99+" : cartCount}
-                </span>
-              )}
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill footer-section">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
             </Link>
 
             {/* ← CHANGED: User Icon with Dropdown */}

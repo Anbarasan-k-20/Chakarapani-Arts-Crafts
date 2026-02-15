@@ -7,8 +7,8 @@ const MostLoved = ({ product }) => {
   const Navigate = useNavigate();
   return (
     <>
-      <div className="container">
-        <h3 className="section-1 fw-bold text-center">Most Loved Products</h3>
+      <div className="container my-5 py-5">
+        <h3 className="section-1 fw-bold text-center my-3">Most Loved Products</h3>
         <hr className="section-divider mx-auto" />
         <ProductGrid products={product} start={8} limit={4} />
       </div>

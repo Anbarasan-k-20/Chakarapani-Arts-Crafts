@@ -10,7 +10,8 @@ import api from "../../api/axiosInstance";
 // import { FaRupeeSign } from "react-icons/fa";
 import ProductGrid from "../Productgrid";
 
-const FeaturedProducts = () => {
+
+const FeaturedProducts = ({section3Ref}) => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,7 @@ const FeaturedProducts = () => {
 
   return (
     <>
-      <div className="section-1 container py-5">
+      <div  ref={section3Ref} className="section-1 container py-5 my-5">
         <h3 className="pb-3 fw-bold text-center">Our Featured Products</h3>
         <hr className="section-divider mx-auto" />
         <ProductGrid products={products} limit={8} />
