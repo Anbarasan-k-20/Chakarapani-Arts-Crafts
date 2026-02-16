@@ -10,6 +10,8 @@ import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 // ✅ NEW: Import order routes
 
+import adminRoutes from "./routes/adminRoutes.js";
+
 dotenv.config();
 connectDB();
 
@@ -24,7 +26,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
-// ✅ NEW: Register order routes
+// ✅ NEW: Register admin routes
+app.use("/api/admin", adminRoutes);
 
 // ✅ Test route
 app.get("/", (req, res) => {

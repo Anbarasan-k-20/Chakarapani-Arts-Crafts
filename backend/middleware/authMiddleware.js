@@ -38,3 +38,15 @@ export const protect = async (req, res, next) => {
     return res.status(401).json({ message: "Not authorized, no token" });
   }
 };
+
+/**
+ * ✅ Admin middleware - Allows access only to admin users
+ * Usage: Add this AFTER protect middleware
+ */
+export const admin = (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(401).json({ message: "Not authorized as an admin" });
+  }
+};
