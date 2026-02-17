@@ -67,7 +67,7 @@ const Footer = () => {
               <li>
                 <Link to="/">Home</Link>
               </li>
-              
+
               <li>
                 <Link to="/products">Shop</Link>
               </li>
@@ -157,8 +157,8 @@ const Footer = () => {
               <img
                 src={payment_img}
                 alt="Payment Methods"
-                // className="img-fluid"
-                // style={{ maxWidth: "180px" }}
+              // className="img-fluid"
+              // style={{ maxWidth: "180px" }}
               />
             </div>
           </div>
@@ -170,7 +170,7 @@ const Footer = () => {
         <div className="container py-3">
           <div className="row align-items-center">
             <div className="col-md-6 text-center text-md-start mb-2 mb-md-0">
-              <p className="mb-0 small">
+              <p className="mb-0 small fw-bold text-light">
                 © {currentYear} Chakrapani Arts & Crafts. All Rights Reserved.
               </p>
             </div>
@@ -183,7 +183,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="developer-link"
                 >
-                  Vyoobam Tech
+                  Vyoobam Tech. | Empowering Digital Solutions
                 </a>
               </p>
             </div>

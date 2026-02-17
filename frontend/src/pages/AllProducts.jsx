@@ -243,7 +243,7 @@ const AllProducts = () => {
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage((prev) => prev - 1)}
                 >
-                  Prev
+                  <i className="fas fa-chevron-left"></i>
                 </button>
 
                 <span className="fw-semibold">
@@ -255,7 +255,8 @@ const AllProducts = () => {
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage((prev) => prev + 1)}
                 >
-                  Next
+                  <i className="fas fa-chevron-right"></i>
+
                 </button>
               </div>
             </>
@@ -318,30 +319,27 @@ const AllProducts = () => {
                       <button
                         key={index}
                         type="button"
-                        className={`btn d-flex justify-content-between align-items-center px-4 py-3 rounded-3 ${
-                          selectedSize?.dimension === size.dimension
+                        className={`btn d-flex justify-content-between align-items-center px-4 py-3 rounded-3 ${selectedSize?.dimension === size.dimension
                             ? "btn-dark"
                             : "btn-outline-secondary"
-                        }`}
+                          }`}
                         onClick={() => setSelectedSize(size)}
                       >
                         <span className="fw-semibold">{size.dimension}</span>
                         <div className="text-end">
                           <span
-                            className={`text-decoration-line-through me-2 small ${
-                              selectedSize?.dimension === size.dimension
+                            className={`text-decoration-line-through me-2 small ${selectedSize?.dimension === size.dimension
                                 ? "text-white-50"
                                 : "text-muted"
-                            }`}
+                              }`}
                           >
                             ₹{size.originalPrice.toLocaleString("en-IN")}
                           </span>
                           <span
-                            className={`fw-bold ${
-                              selectedSize?.dimension === size.dimension
+                            className={`fw-bold ${selectedSize?.dimension === size.dimension
                                 ? "text-white"
                                 : "text-success"
-                            }`}
+                              }`}
                           >
                             ₹{size.salePrice.toLocaleString("en-IN")}
                           </span>

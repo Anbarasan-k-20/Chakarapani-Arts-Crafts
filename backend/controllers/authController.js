@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // REGISTER
-export const registerUser = async (req, res) => { 
+export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -22,6 +22,7 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: req.body.role || "user", // ✅ Added role
     });
 
     res.status(201).json({
@@ -30,6 +31,7 @@ export const registerUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role, // ✅ Return role
       },
     });
   } catch (error) {
@@ -63,6 +65,7 @@ export const loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role, // ✅ Return role
       },
     });
   } catch (error) {

@@ -1,12 +1,12 @@
 import Order from "../models/orderModel.js";
 import Cart from "../models/cartModel.js";
-import Product from "../models/productModel.js";
+// import Product from "../models/productModel.js";
 
 /**
  * @desc    Create a new order from cart items
  * @route   POST /api/orders/create
  * @access  Private (requires login)
- *
+ * 
  * FLOW:
  * 1. Get user's cart
  * 2. Validate cart has items
@@ -95,12 +95,12 @@ export const createOrder = async (req, res) => {
       paymentMethod,
       paymentStatus: "pending",
       // Payment not done yet - just order placed
-      orderStatus: "pending",
+      orderStatus: "Pending",
       // Order placed but not confirmed
       specialInstructions: specialInstructions || "",
       orderHistory: [
         {
-          status: "pending",
+          status: "Pending",
           timestamp: new Date(),
           note: "Order placed successfully",
         },
@@ -201,13 +201,12 @@ export const updateOrderStatus = async (req, res) => {
     const { status, note } = req.body;
 
     // ✅ Validate status
+    // ✅ Validate status
     const validStatuses = [
-      "pending",
-      "confirmed",
-      "processing",
-      "shipped",
-      "delivered",
-      "cancelled",
+      "Pending",
+      "Dispatched",
+      "Delivered",
+      "Cancelled",
     ];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({
@@ -277,17 +276,17 @@ export const cancelOrder = async (req, res) => {
       });
     }
 
-    // ✅ Can only cancel pending or confirmed orders
-    if (!["pending", "confirmed"].includes(order.orderStatus)) {
+    // ✅ Can only cancel pending orders
+    if (!["Pending"].includes(order.orderStatus)) {
       return res.status(400).json({
         message: `Cannot cancel order with status: ${order.orderStatus}`,
       });
     }
 
     // ✅ Update to cancelled
-    order.orderStatus = "cancelled";
+    order.orderStatus = "Cancelled";
     order.orderHistory.push({
-      status: "cancelled",
+      status: "Cancelled",
       timestamp: new Date(),
       note: reason || "Cancelled by user",
     });

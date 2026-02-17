@@ -12,38 +12,38 @@ import CheckoutPage from "./pages/CheckoutPage";
 // ✅ NEW: Import checkout page
 import OrdersPage from "./pages/OrderPage";
 // ✅ NEW: Import orders page
-import PagenotFound from "./pages/pageNotFound/PagenotFound";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useEffect } from "react";
+// ✅ NEW: Import Admin Pages
+import AdminRoute from "./components/ProtectedRoute/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManageProducts from "./pages/admin/ManageProducts";
+import AddEditProduct from "./pages/admin/AddEditProduct";
+import ManageOrders from "./pages/admin/ManageOrders";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { restoreSession } from "./redux/authSlice";
 import { fetchCart } from "./redux/cartSlice";
+import PagenotFound from "./pages/pageNotFound/PagenotFound";
 
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const isSessionRestored = useSelector(
-    (state) => state.auth.isSessionRestored,
-  );
 
   // ✅ Restore session on app load
   useEffect(() => {
     dispatch(restoreSession());
   }, [dispatch]);
 
-  // ✅ Fetch cart when user logs in or session is restored
+  // ✅ Fetch cart when user is logged in
   useEffect(() => {
-    if (isLoggedIn && isSessionRestored) {
+    if (isLoggedIn) {
       dispatch(fetchCart());
     }
-  }, [isLoggedIn, isSessionRestored, dispatch]);
+  }, [isLoggedIn, dispatch]);
+
+  const isSessionRestored = useSelector((state) => state.auth.isSessionRestored);
 
   if (!isSessionRestored) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border"></div>
-      </div>
-    );
+    return null; // Or a loading spinner
   }
 
   return (
@@ -56,11 +56,19 @@ function App() {
           <Route path="/allproducts" element={<AllProducts />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          {/* ✅ NEW: Checkout route */}
           <Route path="/orders" element={<OrdersPage />} />
-          {/* ✅ NEW: Orders route */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* ✅ Admin Protected Routes */}
+          <Route path="/admin" element={<AdminRoute />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="products" element={<ManageProducts />} />
+            <Route path="products/add" element={<AddEditProduct />} />
+            <Route path="products/edit/:id" element={<AddEditProduct />} />
+            <Route path="orders" element={<ManageOrders />} />
+          </Route>
+
           <Route path="*" element={<PagenotFound />} />
         </Routes>
         <Footer />

@@ -27,6 +27,7 @@ const ProductDetail = () => {
 
   // ✅ Get auth state
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
 
   const [product, setProduct] = useState(null);
   const [relatedProduct, setRelatedProduct] = useState([]);
@@ -222,11 +223,10 @@ const ProductDetail = () => {
                     key={ind}
                     type="button"
                     onClick={() => handleSizeSelect(sizeOption)}
-                    className={`btn btn-sm me-3 px-3 mb-2 ${
-                      selectedSize?.dimension === sizeOption.dimension
-                        ? "btn-dark"
-                        : "btn-outline-secondary"
-                    }`}
+                    className={`btn btn-sm me-3 px-3 mb-2 ${selectedSize?.dimension === sizeOption.dimension
+                      ? "btn-dark"
+                      : "btn-outline-secondary"
+                      }`}
                   >
                     {sizeOption.dimension}
                   </button>
@@ -245,13 +245,15 @@ const ProductDetail = () => {
             )}
 
             {/* ✅ Action buttons */}
-            <button
-              className="btn-in px-4 py-2"
-              onClick={handleAddToCart}
-              disabled={addingToCart}
-            >
-              {addingToCart ? "Adding..." : "Add to Cart"}
-            </button>
+            {user?.role !== "admin" && (
+              <button
+                className="btn-in px-4 py-2"
+                onClick={handleAddToCart}
+                disabled={addingToCart}
+              >
+                {addingToCart ? "Adding..." : "Add to Cart"}
+              </button>
+            )}
             {/* <button >Buy Now</button> */}
           </div>
 

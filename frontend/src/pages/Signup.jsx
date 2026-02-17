@@ -12,6 +12,7 @@ const Signup = () => {
     phone: "",
     password: "",
     confirmPassword: "",
+    role: "user", // Default role
   });
 
   const [errors, setErrors] = useState({});
@@ -227,6 +228,45 @@ const Signup = () => {
                       {errors.confirmPassword}
                     </div>
                   )}
+                </div>
+
+                {/* Role Selection */}
+                <div className="mb-4">
+                  <label className="form-label fw-semibold d-block">
+                    Register as:
+                  </label>
+                  <div className="d-flex gap-4">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="role"
+                        id="roleUser"
+                        value="user"
+                        checked={formData.role === "user"}
+                        onChange={handleChange}
+                        disabled={loading}
+                      />
+                      <label className="form-check-label" htmlFor="roleUser">
+                        User
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="role"
+                        id="roleAdmin"
+                        value="admin"
+                        checked={formData.role === "admin"}
+                        onChange={handleChange}
+                        disabled={loading}
+                      />
+                      <label className="form-check-label" htmlFor="roleAdmin">
+                        Admin
+                      </label>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Submit Button */}

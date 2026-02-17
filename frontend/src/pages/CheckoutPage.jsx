@@ -23,6 +23,8 @@ const CheckoutPage = () => {
     (state) => state.order,
   );
 
+  const cartLoading = useSelector((state) => state.cart.loading); // ✅ Get cart loading state
+
   // ✅ Redirect if not logged in
   useEffect(() => {
     if (!isLoggedIn) {
@@ -31,13 +33,13 @@ const CheckoutPage = () => {
       return;
     }
 
-    // ✅ Redirect if cart is empty
-    if (cartItems.length === 0) {
+    // ✅ Redirect if cart is empty (only if NOT loading)
+    if (!cartLoading && cartItems.length === 0) {
       alert("Your cart is empty");
       navigate("/cart");
       return;
     }
-  }, [isLoggedIn, cartItems.length, navigate]);
+  }, [isLoggedIn, cartItems.length, cartLoading, navigate]);
 
   // ✅ SHIPPING ADDRESS FORM STATE
   const [shippingAddress, setShippingAddress] = useState({
@@ -247,9 +249,8 @@ const CheckoutPage = () => {
                   <input
                     type="text"
                     name="fullName"
-                    className={`form-control ${
-                      errors.fullName ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${errors.fullName ? "is-invalid" : ""
+                      }`}
                     value={shippingAddress.fullName}
                     onChange={handleAddressChange}
                     disabled={orderLoading}
@@ -265,9 +266,8 @@ const CheckoutPage = () => {
                   <input
                     type="email"
                     name="email"
-                    className={`form-control ${
-                      errors.email ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${errors.email ? "is-invalid" : ""
+                      }`}
                     value={shippingAddress.email}
                     onChange={handleAddressChange}
                     disabled={orderLoading}
@@ -287,9 +287,8 @@ const CheckoutPage = () => {
                     <input
                       type="text"
                       name="phone"
-                      className={`form-control ${
-                        errors.phone ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.phone ? "is-invalid" : ""
+                        }`}
                       placeholder="10-digit number"
                       maxLength={10}
                       value={shippingAddress.phone}
@@ -310,9 +309,8 @@ const CheckoutPage = () => {
                   <input
                     type="text"
                     name="addressLine1"
-                    className={`form-control ${
-                      errors.addressLine1 ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${errors.addressLine1 ? "is-invalid" : ""
+                      }`}
                     placeholder="Street address, building, etc."
                     value={shippingAddress.addressLine1}
                     onChange={handleAddressChange}
@@ -348,9 +346,8 @@ const CheckoutPage = () => {
                     <input
                       type="text"
                       name="city"
-                      className={`form-control ${
-                        errors.city ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.city ? "is-invalid" : ""
+                        }`}
                       value={shippingAddress.city}
                       onChange={handleAddressChange}
                       disabled={orderLoading}
@@ -364,9 +361,8 @@ const CheckoutPage = () => {
                     <input
                       type="text"
                       name="state"
-                      className={`form-control ${
-                        errors.state ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.state ? "is-invalid" : ""
+                        }`}
                       value={shippingAddress.state}
                       onChange={handleAddressChange}
                       disabled={orderLoading}
@@ -385,9 +381,8 @@ const CheckoutPage = () => {
                   <input
                     type="text"
                     name="postalCode"
-                    className={`form-control ${
-                      errors.postalCode ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${errors.postalCode ? "is-invalid" : ""
+                      }`}
                     value={shippingAddress.postalCode}
                     onChange={handleAddressChange}
                     disabled={orderLoading}
@@ -405,7 +400,7 @@ const CheckoutPage = () => {
                     className="form-control"
                     value={shippingAddress.country}
                     disabled
-                    // India only for now
+                  // India only for now
                   />
                 </div>
               </form>
@@ -449,7 +444,7 @@ const CheckoutPage = () => {
                     checked={paymentMethod === "credit_card"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     disabled
-                    // Coming soon
+                  // Coming soon
                   />
                   <label className="form-check-label w-100" htmlFor="card">
                     <strong>Credit/Debit Card</strong>
@@ -468,7 +463,7 @@ const CheckoutPage = () => {
                     checked={paymentMethod === "upi"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     disabled
-                    // Coming soon
+                  // Coming soon
                   />
                   <label className="form-check-label w-100" htmlFor="upi">
                     <strong>UPI</strong>

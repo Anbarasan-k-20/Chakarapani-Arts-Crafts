@@ -13,6 +13,7 @@ const ProductGrid = ({ products = [], limit = 8 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user); // ✅ Fix: Hook at top level
   const cartLoading = useSelector((state) => state.cart.loading);
 
   const [snackbar, setSnackbar] = useState({
@@ -172,16 +173,15 @@ const ProductGrid = ({ products = [], limit = 8 }) => {
                 )}
 
                 {/* ✅ Add to Cart Button */}
-                <button
-                  className="btn btn-outline-secondary mt-2 d-flex align-items-center gap-1"
-                  onClick={(e) => handleAddToCart(e, product)}
-                  disabled={cartLoading} // Disable while loading
-                >
-                  <FaCartShopping />
-                  {/* <span className="ms-1" style={{ fontSize: "0.75rem" }}>
-                    Add
-                  </span> */}
-                </button>
+                {!isLoggedIn || user?.role !== "admin" ? (
+                  <button
+                    className="btn btn-outline-secondary mt-2 d-flex align-items-center gap-1"
+                    onClick={(e) => handleAddToCart(e, product)}
+                    disabled={cartLoading} // Disable while loading
+                  >
+                    <FaCartShopping />
+                  </button>
+                ) : null}
               </div>
             </div>
           </div>
@@ -249,30 +249,27 @@ const ProductGrid = ({ products = [], limit = 8 }) => {
                         key={index}
                         type="button"
                         // ✅ TEACHING: Dynamic className - selected = dark, others = outline
-                        className={`btn d-flex justify-content-between align-items-center px-4 py-3 rounded-3 ${
-                          selectedSize?.dimension === size.dimension
-                            ? "btn-dark" // Selected: filled black
-                            : "btn-outline-secondary" // Not selected: outline
-                        }`}
+                        className={`btn d-flex justify-content-between align-items-center px-4 py-3 rounded-3 ${selectedSize?.dimension === size.dimension
+                          ? "btn-dark" // Selected: filled black
+                          : "btn-outline-secondary" // Not selected: outline
+                          }`}
                         onClick={() => setSelectedSize(size)}
                       >
                         <span className="fw-semibold">{size.dimension}</span>
                         <div className="text-end">
                           <span
-                            className={`text-decoration-line-through me-2 small ${
-                              selectedSize?.dimension === size.dimension
-                                ? "text-white-50"
-                                : "text-muted"
-                            }`}
+                            className={`text-decoration-line-through me-2 small ${selectedSize?.dimension === size.dimension
+                              ? "text-white-50"
+                              : "text-muted"
+                              }`}
                           >
                             ₹{size.originalPrice.toLocaleString("en-IN")}
                           </span>
                           <span
-                            className={`fw-bold ${
-                              selectedSize?.dimension === size.dimension
-                                ? "text-white"
-                                : "text-success"
-                            }`}
+                            className={`fw-bold ${selectedSize?.dimension === size.dimension
+                              ? "text-white"
+                              : "text-success"
+                              }`}
                           >
                             ₹{size.salePrice.toLocaleString("en-IN")}
                           </span>
