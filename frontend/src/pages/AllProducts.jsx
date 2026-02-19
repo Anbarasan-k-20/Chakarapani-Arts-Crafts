@@ -11,6 +11,12 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronRight,
+  faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
+
 const AllProducts = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,6 +24,8 @@ const AllProducts = () => {
   // Auth & Cart state
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const cartLoading = useSelector((state) => state.cart.loading);
+
+  const user = useSelector((state) => state.auth.user); // ✅ Fix: Hook at top level
 
   // Search params
   const [searchParams] = useSearchParams();
@@ -223,13 +231,16 @@ const AllProducts = () => {
                         )}
 
                         {/* Add to Cart Button */}
-                        <button
-                          className="btn btn-outline-secondary mt-2 d-flex align-items-center gap-1"
-                          onClick={(e) => handleAddToCart(e, product)}
-                          disabled={cartLoading}
-                        >
-                          <FaCartShopping />
-                        </button>
+                        {/* ✅ Add to Cart Button */}
+                        {!isLoggedIn || user?.role !== "admin" ? (
+                          <button
+                            className="btn btn-outline-secondary mt-2 d-flex align-items-center gap-1"
+                            onClick={(e) => handleAddToCart(e, product)}
+                            disabled={cartLoading}
+                          >
+                            <FaCartShopping />
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -243,7 +254,7 @@ const AllProducts = () => {
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage((prev) => prev - 1)}
                 >
-                  <i className="fas fa-chevron-left"></i>
+                  <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
 
                 <span className="fw-semibold">
@@ -255,8 +266,7 @@ const AllProducts = () => {
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage((prev) => prev + 1)}
                 >
-                  <i className="fas fa-chevron-right"></i>
-
+                  <FontAwesomeIcon icon={faChevronRight} />
                 </button>
               </div>
             </>
@@ -319,27 +329,30 @@ const AllProducts = () => {
                       <button
                         key={index}
                         type="button"
-                        className={`btn d-flex justify-content-between align-items-center px-4 py-3 rounded-3 ${selectedSize?.dimension === size.dimension
+                        className={`btn d-flex justify-content-between align-items-center px-4 py-3 rounded-3 ${
+                          selectedSize?.dimension === size.dimension
                             ? "btn-dark"
                             : "btn-outline-secondary"
-                          }`}
+                        }`}
                         onClick={() => setSelectedSize(size)}
                       >
                         <span className="fw-semibold">{size.dimension}</span>
                         <div className="text-end">
                           <span
-                            className={`text-decoration-line-through me-2 small ${selectedSize?.dimension === size.dimension
+                            className={`text-decoration-line-through me-2 small ${
+                              selectedSize?.dimension === size.dimension
                                 ? "text-white-50"
                                 : "text-muted"
-                              }`}
+                            }`}
                           >
                             ₹{size.originalPrice.toLocaleString("en-IN")}
                           </span>
                           <span
-                            className={`fw-bold ${selectedSize?.dimension === size.dimension
+                            className={`fw-bold ${
+                              selectedSize?.dimension === size.dimension
                                 ? "text-white"
                                 : "text-success"
-                              }`}
+                            }`}
                           >
                             ₹{size.salePrice.toLocaleString("en-IN")}
                           </span>

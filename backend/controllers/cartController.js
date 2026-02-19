@@ -72,7 +72,7 @@ export const addToCart = async (req, res) => {
     }
 
     // ✅ Create unique item identifier (product + size)
-    const itemIdentifier = `${productId}_${selectedSize.dimension}`;
+    // const itemIdentifier = `${productId}_${selectedSize.dimension}`;
 
     // ✅ Check if item already exists in cart
     const existingItemIndex = cart.items.findIndex(

@@ -9,10 +9,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
 import { clearCartLocal } from "../redux/cartSlice";
+import { useState } from "react";
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
@@ -54,10 +54,18 @@ const Navbar = () => {
           <a href="https://facebook.com" target="_blank" className="text-light">
             <FaFacebookF />
           </a>
-          <a href="https://instagram.com" target="_blank" className="text-light">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            className="text-light"
+          >
             <FaInstagram />
           </a>
-          <a href="https://wa.me/919999999999" target="_blank" className="text-light">
+          <a
+            href="https://wa.me/919999999999"
+            target="_blank"
+            className="text-light"
+          >
             <FaWhatsapp />
           </a>
         </div>
@@ -116,7 +124,10 @@ const Navbar = () => {
             </li>
 
             {/* Navigation Links */}
-            <Link to="/allproducts" className="nav-link custom-nav-link section-1">
+            <Link
+              to="/allproducts"
+              className="nav-link custom-nav-link section-1"
+            >
               All Products
             </Link>
 
@@ -182,7 +193,10 @@ const Navbar = () => {
                   >
                     <FaUser />
                     {isAdmin && (
-                      <span className="ms-1 badge bg-danger text-white" style={{ fontSize: "0.6rem" }}>
+                      <span
+                        className="ms-1 badge bg-danger text-white"
+                        style={{ fontSize: "0.6rem" }}
+                      >
                         ADMIN
                       </span>
                     )}
@@ -223,7 +237,10 @@ const Navbar = () => {
                   )}
                 </>
               ) : (
-                <Link to="/login" className="nav-link custom-nav-link section-1">
+                <Link
+                  to="/login"
+                  className="nav-link custom-nav-link section-1"
+                >
                   <FaUser />
                 </Link>
               )}

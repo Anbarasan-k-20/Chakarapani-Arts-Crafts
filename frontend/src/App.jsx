@@ -1,6 +1,6 @@
 import "../src/App.css";
 import Navbar from "./components/Navbar";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../src/pages/Home";
 import Footer from "./components/Footer";
 import ProductDetail from "./pages/ProductDetail";
@@ -9,15 +9,18 @@ import CartPage from "./pages/CartPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import CheckoutPage from "./pages/CheckoutPage";
-// ✅ NEW: Import checkout page
 import OrdersPage from "./pages/OrderPage";
-// ✅ NEW: Import orders page
-// ✅ NEW: Import Admin Pages
+
+// ✅ Import protected routes
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
+import UserRoute from "./components/ProtectedRoute/UserRoute";
+// ✅ NEW: Import user-only route
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageProducts from "./pages/admin/ManageProducts";
 import AddEditProduct from "./pages/admin/AddEditProduct";
 import ManageOrders from "./pages/admin/ManageOrders";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { restoreSession } from "./redux/authSlice";
@@ -28,12 +31,10 @@ function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  // ✅ Restore session on app load
   useEffect(() => {
     dispatch(restoreSession());
   }, [dispatch]);
 
-  // ✅ Fetch cart when user is logged in
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchCart());
@@ -43,7 +44,7 @@ function App() {
   const isSessionRestored = useSelector((state) => state.auth.isSessionRestored);
 
   if (!isSessionRestored) {
-    return null; // Or a loading spinner
+    return null;
   }
 
   return (
@@ -51,14 +52,38 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+          {/* ✅ Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/allproducts" element={<AllProducts />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* ✅ User-only routes (blocks admin) */}
+          <Route
+            path="/cart"
+            element={
+              <UserRoute>
+                <CartPage />
+              </UserRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <UserRoute>
+                <CheckoutPage />
+              </UserRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <UserRoute>
+                <OrdersPage />
+              </UserRoute>
+            }
+          />
 
           {/* ✅ Admin Protected Routes */}
           <Route path="/admin" element={<AdminRoute />}>
@@ -69,6 +94,7 @@ function App() {
             <Route path="orders" element={<ManageOrders />} />
           </Route>
 
+          {/* ✅ 404 */}
           <Route path="*" element={<PagenotFound />} />
         </Routes>
         <Footer />
