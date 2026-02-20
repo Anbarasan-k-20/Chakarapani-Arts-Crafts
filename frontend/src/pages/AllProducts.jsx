@@ -274,7 +274,7 @@ const AllProducts = () => {
         </div>
 
         {/* LEFT SIDEBAR */}
-        <ProductSidebar products={products} />
+        <ProductSidebar />
       </div>
 
       {/* SIZE SELECTION MODAL */}
