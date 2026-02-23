@@ -1,83 +1,80 @@
 import api from "../api/axiosInstance.js";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FaRupeeSign } from "react-icons/fa";
-// import "./ProductSidebar.css";
 
 const ProductSidebar = () => {
   const [products, setProducts] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const getProducts = async () => {
       try {
         const res = await api.get("/products");
         setProducts(res.data);
+
+        // Extract unique categories from comma-separated values
+        const allCategories = new Set();
+        res.data.forEach((product) => {
+          if (product.category) {
+            // Split by comma and trim whitespace
+            const cats = product.category
+              .split(",")
+              .map((cat) => cat.trim())
+              .filter((cat) => cat.length > 0);
+            cats.forEach((cat) => allCategories.add(cat));
+          }
+        });
+
+        setCategories(Array.from(allCategories).sort());
+
+        // Get selected category from URL
+        const searchQuery = searchParams.get("search") || "";
+        setSelectedCategory(searchQuery);
       } catch (err) {
         console.log(err);
       }
     };
     getProducts();
-  }, []);
+  }, [searchParams]);
 
-  const filteredProducts = products.filter((product) =>
-    product.title?.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
 
-  const handleProductClick = (id) => {
-    setSearchText("");
-    setShowDropdown(false);
-    navigate(`/product/${id}`);
+    if (category) {
+      navigate(`/allproducts?search=${encodeURIComponent(category)}`);
+    } else {
+      navigate("/allproducts");
+    }
   };
 
   return (
     <aside className="col-md-3">
-      {/* ================= SEARCH ================= */}
-      <div className="mb-4 position-relative">
-        <h5 className="fw-bold mb-3">Search Products</h5>
+      {/* ================= CATEGORY FILTER DROPDOWN ================= */}
+      <div className="mb-4">
+        <h5 className="fw-bold mb-3">Filter by Category</h5>
 
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search products..."
-          value={searchText}
-          onChange={(e) => {
-            setSearchText(e.target.value);
-            setShowDropdown(true);
-          }}
-          onFocus={() => setShowDropdown(true)}
-        />
-
-        {showDropdown && searchText && (
-          <div className="search-dropdown bg-white shadow rounded mt-1 position-absolute w-100">
-            {filteredProducts.length === 0 && (
-              <div className="p-3 text-muted">No products found</div>
-            )}
-
-            {filteredProducts.slice(0, 6).map((item) => (
-              <div
-                key={item.id}
-                className="d-flex gap-2 p-2 align-items-center border-bottom sidebar-item"
-                onClick={() => handleProductClick(item.id)}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="sidebar-img-sm"
-                />
-                <div>
-                  <div className="small fw-semibold">{item.title}</div>
-                  <div className="small text-muted">
-                    <FaRupeeSign /> {item.price}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <select
+          className="form-select form-select-lg"
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+        >
+          <option value="">All Categories</option>
+          {categories.length === 0 ? (
+            <option disabled>No categories available</option>
+          ) : (
+            categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))
+          )}
+        </select>
       </div>
 
       {/* ================= RECENTLY VIEWED ================= */}
@@ -89,6 +86,7 @@ const ProductSidebar = () => {
             key={item.id}
             className="d-flex gap-3 mb-3 sidebar-item"
             onClick={() => navigate(`/product/${item.id}`)}
+            style={{ cursor: "pointer" }}
           >
             <img src={item.image} alt={item.title} className="sidebar-img-md" />
             <div>
@@ -110,6 +108,7 @@ const ProductSidebar = () => {
             key={item.id}
             className="d-flex gap-3 mb-3 sidebar-item"
             onClick={() => navigate(`/product/${item.id}`)}
+            style={{ cursor: "pointer" }}
           >
             <img src={item.image} alt={item.title} className="sidebar-img-md" />
             <div>

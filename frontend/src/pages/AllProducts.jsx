@@ -76,13 +76,22 @@ const AllProducts = () => {
 
   // Filter products based on search
   const filteredProducts = products.filter((product) => {
-    const q = searchQuery.toLowerCase();
+    const q = searchQuery.toLowerCase().trim();
 
-    return (
-      product.title?.toLowerCase().includes(q) ||
-      product.category?.toLowerCase().includes(q) ||
-      product.description?.toLowerCase().includes(q)
-    );
+    if (!q) {
+      // No filter, show all products
+      return true;
+    }
+
+    // Check if product category includes the selected category
+    if (product.category) {
+      const productCategories = product.category
+        .split(",")
+        .map((cat) => cat.trim().toLowerCase());
+      return productCategories.includes(q);
+    }
+
+    return false;
   });
 
   // Pagination calculations
