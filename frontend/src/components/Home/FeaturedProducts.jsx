@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import HurryUp from "./HurryUp";
 import api from "../../api/axiosInstance";
 // import { useNavigate } from "react-router-dom";
-// Icons
+
+
+// FA Icons
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faHeart } from "@fortawesome/free-solid-svg-icons";
 // import { FaCartShopping } from "react-icons/fa6";
 // import { FaRupeeSign } from "react-icons/fa";
+
 import ProductGrid from "../Productgrid";
 
 

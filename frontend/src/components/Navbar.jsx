@@ -71,9 +71,17 @@ const Navbar = () => {
         </div>
         <div className="offer-wrapper flex-grow-1 mx-4">
           <div className="offer-track text-light d-flex gap-5">
-            <span>🔥 Special 50% Discount Offer 🔥</span>
-            <span>Free Shipping All Over India 🚚</span>
-            <span>Limited Time Sale – Buy Now 🔥</span>
+            <Link className="dropdown-item" to={"/allproducts"}>
+              🔥 Special 50% Discount Offer 🔥
+            </Link>
+            <Link className="dropdown-item">
+              🔥 Free Shipping All Over India 🚚
+            </Link>
+            <Link className="dropdown-item">
+              Limited Time Sale – Buy Now 🔥
+            </Link>
+            {/* <span>Free Shipping All Over India 🚚</span>
+            <span>Limited Time Sale – Buy Now 🔥</span> */}
           </div>
         </div>
         <div className="d-flex gap-4 small text-light">
